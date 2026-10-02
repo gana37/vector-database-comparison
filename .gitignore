@@ -30,6 +30,18 @@ env/
 ENV/
 .venv/
 
+# Environment files, secrets & credentials (strictly ignored)
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.crt
+secrets/
+secrets.*
+credentials.json
+
 # IDE and Editor configurations
 .vscode/
 .idea/

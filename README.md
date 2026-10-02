@@ -1,265 +1,162 @@
 # Vector Database Comparative Analysis and Benchmarking Platform
 
-An end-to-end engineering platform and empirical benchmarking framework evaluating **8 Vector Databases** on identical corpus data, embedding models, queries, and Information Retrieval (IR) metrics.
+An end-to-end engineering platform and empirical benchmarking system evaluating **8 Vector Databases and Search Engines** using common corpus data, embedding models, queries, and Information Retrieval (IR) evaluation metrics.
 
 Built for the technical assessment requirement at **AgentAnalytics.AI**:
 > *"1 Excel sheet, comparison analysis on 8 VDBs. Keep it exhaustive, technical depth."*
 
-Primary Deliverable: [`outputs/excel/VDB_Comprehensive_Analysis.xlsx`](file:///c:/Users/User/Downloads/VED-Task/outputs/excel/VDB_Comprehensive_Analysis.xlsx) *(Strictly 1 single comprehensive worksheet: `VDB_Master_Comparison`)*
+**Primary Deliverable**: [`outputs/excel/VDB_Comprehensive_Analysis.xlsx`](file:///c:/Users/User/Downloads/VED-Task/outputs/excel/VDB_Comprehensive_Analysis.xlsx) *(Strictly 1 single comprehensive worksheet: `VDB_Master_Comparison`)*
 
 ---
 
-## Table of Contents
-1. [Executive Summary & Architecture](#1-executive-summary--architecture)
-2. [Evaluated Vector Database Systems](#2-evaluated-vector-database-systems)
-3. [Scientific Benchmarking Methodology](#3-scientific-benchmarking-methodology)
-4. [Empirical Experimental Results](#4-empirical-experimental-results)
-5. [In-Depth Technical Comparison & Trade-off Analysis](#5-in-depth-technical-comparison--trade-off-analysis)
-6. [Primary Excel Deliverable Specification](#6-primary-excel-deliverable-specification)
-7. [Repository Structure](#7-repository-structure)
-8. [Reproducibility & Execution Guide](#8-reproducibility--execution-guide)
+## Executive Summary & Scope Distinction
+
+This platform provides both an exhaustive architectural evaluation across all 8 vector database systems and empirical benchmark measurements under controlled experimental conditions.
+
+### Scope Distinction
+1. **Technical Comparison (All 8 Systems)**:
+   - **Qdrant**, **Chroma**, **FAISS**, **Milvus**, **Weaviate**, **pgvector**, **Elasticsearch**, and **Pinecone**.
+   - Factual, multi-dimensional analysis spanning underlying storage engines, indexing algorithms (HNSW, IVF, PQ/SQ/BQ), filtering paradigms (single-stage graph traversal vs pre/post-filtering), hybrid sparse-dense fusion, distributed sharding, high availability, security, and operational TCO.
+2. **Empirically Benchmarked Systems (3 Systems)**:
+   - **Qdrant** (Local Embedded In-Memory Mode)
+   - **Chroma** (Local Persistent Storage Mode)
+   - **FAISS** (In-Process Algorithmic Baseline, Flat Index)
+3. **Systems Not Benchmarked (5 Systems)**:
+   - **Milvus**: Not benchmarked (*`pymilvus` client driver not installed; requires external cluster/daemon*).
+   - **Weaviate**: Not benchmarked (*`weaviate-client` driver not installed; requires external cluster/daemon*).
+   - **pgvector**: Not benchmarked (*`psycopg2` driver not installed; requires active PostgreSQL server daemon with pgvector extension*).
+   - **Elasticsearch**: Not benchmarked (*`elasticsearch` client driver not installed; requires active Elasticsearch cluster daemon*).
+   - **Pinecone**: Not benchmarked (*Cloud SaaS; `PINECONE_API_KEY` environment variable not configured to prevent unauthorized API requests and avoid unintended cloud billing*).
+
+> [!IMPORTANT]
+> **Strict Scientific Integrity**: In strict compliance with experimental standards, **no benchmark numbers are fabricated, estimated, or simulated** for unbenchmarked systems. Systems that were not executed in the live benchmark harness are clearly identified with their exact technical root cause.
+
+> [!WARNING]
+> **Controlled Workload Scope & Non-Generalization Notice**:
+> The benchmark results presented here apply **only to this controlled workload** (1,000 documents, 50 queries, 384 dimensions, Top-$K=10$, local execution) and **should not be treated as universal performance claims**. Vector search performance in production depends heavily on vector dimensionality, index quantization, dataset scale (millions/billions of vectors), filtering selectivity, concurrency, network topology, and server hardware.
+
+> [!NOTE]
+> **FAISS Architectural Scope**:
+> **FAISS is an in-process vector similarity-search library and algorithmic baseline, not a full client-server vector database**. It does not include a network server daemon, client-server API protocol, disk durability / Write-Ahead Log (WAL), dynamic CRUD document mutations, metadata payload storage and filtering, authentication/RBAC, or distributed clustering. In this platform, FAISS serves as a compute baseline representing raw hardware throughput and distance calculation efficiency rather than a direct database peer.
 
 ---
 
-## 1. Executive Summary & Architecture
+## Controlled Benchmark Workload Specification
 
-Modern AI systems, Retrieval-Augmented Generation (RAG) pipelines, and autonomous agent platforms rely heavily on vector search engines for dense contextual retrieval. However, vector database selection is often driven by marketing claims rather than empirical validation and rigorous architectural trade-off analysis.
+The empirical benchmark was executed under strictly identical experimental parameters across all evaluated engines:
 
-This platform provides:
-- **Zero Fabrication**: Measured metrics are experimentally collected under controlled conditions. Unbenchmarked systems are explicitly identified with root-cause explanations (missing daemons, unconfigured API keys, or driver requirements).
-- **Strict Vector Parity**: All systems receive identical unit-normalized 384-dimensional embeddings generated from the BEIR/SciFact benchmark.
-- **Identical Evaluation Workload**: 1,000 corpus documents, 50 queries with 54 ground-truth relevance judgments, Top-$K=10$, 10 warmup queries, and 3 randomized measurement cycles (150 query runs per database).
-- **Executive Deliverable**: An openpyxl-generated single-worksheet Excel workbook containing 73 rows across 14 sections spanning architecture, ANN algorithms, filtering, distributed scalability, developer experience, measured benchmarks, and production recommendations.
-
-### Pipeline Architecture
-
-```
-                          ┌───────────────────────────┐
-                          │   BEIR/SciFact Dataset    │
-                          │   (TU Darmstadt Mirror)   │
-                          └─────────────┬─────────────┘
-                                        │ Download & Parse
-                                        ▼
-                          ┌───────────────────────────┐
-                          │  Corpus (1,000 docs)      │
-                          │  Queries (50 queries)     │
-                          │  Qrels (54 judgments)     │
-                          └─────────────┬─────────────┘
-                                        │
-                                        ▼
-                          ┌───────────────────────────┐
-                          │  all-MiniLM-L6-v2 (ONNX)  │
-                          │  384-d, Float32, L2-Norm  │
-                          └──────┬─────────────┬──────┘
-                                 │             │
-        ┌────────────────────────┘             └────────────────────────┐
-        ▼                                                               ▼
-┌───────────────────────────────┐                             ┌───────────────────────────────┐
-│ doc_embeddings_384d.npy (1000)│                             │query_embeddings_384d.npy (50) │
-└───────────────┬───────────────┘                             └───────────────┬───────────────┘
-                │                                                             │
-                └───────────────────────┬─────────────────────────────────────┘
-                                        │
-                                        ▼
-        ┌───────────────────────────────────────────────────────────────┐
-        │                 Unified VDB Adapter Framework                 │
-        │      (BaseVectorDBAdapter: connect, insert, query, cleanup)   │
-        └───────┬──────────┬──────────┬──────────┬──────────┬───────────┘
-                │          │          │          │          │
-         ┌──────▼───┐ ┌────▼────┐ ┌───▼────┐ ┌───▼────┐ ┌───▼───────────┐
-         │  Qdrant  │ │ Chroma  │ │ FAISS  │ │ Milvus │ │ Weaviate/etc. │
-         └──────┬───┘ └────┬────┘ └───┬────┘ └───┬────┘ └───┬───────────┘
-                │          │          │          │          │
-                └──────────┴──────────┼──────────┴──────────┘
-                                      │
-                                      ▼
-        ┌───────────────────────────────────────────────────────────────┐
-        │            Benchmarking Engine & Resource Monitor             │
-        │  - Ingestion Throughput (vec/s) & Index Construction Duration │
-        │  - Latency Percentiles (P50, P90, P95, P99, Mean) & QPS       │
-        │  - IR Quality (Recall@10, Precision@10, HitRate@10, MRR, NDCG)│
-        └─────────────────────────────┬─────────────────────────────────┘
-                                      │
-                                      ▼
-        ┌───────────────────────────────────────────────────────────────┐
-        │                   Excel Report Generator                      │
-        │      (openpyxl: Navy Palette, Freeze Panes, 1 Worksheet)      │
-        └─────────────────────────────┬─────────────────────────────────┘
-                                      │
-                                      ▼
-        ┌───────────────────────────────────────────────────────────────┐
-        │         outputs/excel/VDB_Comprehensive_Analysis.xlsx         │
-        └───────────────────────────────────────────────────────────────┘
-```
+| Parameter | Specification | Purpose / Notes |
+| :--- | :--- | :--- |
+| **Corpus Dataset** | **1,000 documents** | Deterministically subsampled (`seed=42`) from `BEIR/SciFact` (TU Darmstadt mirror). |
+| **Query Set** | **50 queries** | Matched deterministic queries from SciFact test/train splits. |
+| **Ground-Truth Judgments**| **54 relevance judgments** | Binary positive relevance judgments mapped directly within the 1,000-doc corpus subset. |
+| **Embedding Model** | `all-MiniLM-L6-v2` | Dense sentence transformer executed via ONNX Runtime (`v1.30.0`) with HuggingFace Tokenizers. |
+| **Embedding Dimension** | **384-dimensional** | Generated once, validated for non-null/finite float32 values, and saved locally as numpy arrays. |
+| **Vector Normalization** | **$L_2$ Unit Normalization** | $\|v\|_2 = 1.0$, ensuring Cosine Similarity equals Inner Product (Dot Product). |
+| **Top-K Retrieval** | **Top-$K = 10$** | 10 nearest neighbors retrieved per query. |
+| **Repetitions** | **3 repetitions (150 runs)** | 10 warm-up queries to prime caches + 50 queries executed across 3 randomized repetitions. |
+| **Latency Metrics** | **P50, P95, P99, Mean** | Measured in milliseconds using high-resolution monotonic timer (`time.perf_counter_ns`). |
+| **Throughput Metric** | **QPS** | Sequential Query Throughput (queries per second). |
+| **IR Quality Metrics** | **Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10** | Evaluated against official SciFact ground-truth relevance judgments. |
 
 ---
 
-## 2. Evaluated Vector Database Systems
+## Empirical Experimental Results
 
-The platform evaluates 8 vector search technologies representing the key archetypes in the vector database landscape:
+The table below reflects genuine, experimentally measured numbers collected from the execution run:
 
-| Database | Architecture Archetype | Core Engine | Primary ANN Index | License |
-| :--- | :--- | :--- | :--- | :--- |
-| **Qdrant** | Native Vector Database | Rust | HNSW (Payload-graph) | Apache 2.0 |
-| **Chroma** | Embedded / Local-First Store | Python / Rust | HNSW (hnswlib) | Apache 2.0 |
-| **FAISS** | Vector Similarity Library | C++ / CUDA | Flat, HNSW, IVF_PQ | MIT |
-| **Milvus** | Distributed Cloud-Native VDB | Go / C++ | HNSW, DiskANN, SCANN | Apache 2.0 |
-| **Weaviate** | Native Vector Search Engine | Go | Dynamic HNSW, Flat | BSD-3-Clause |
-| **pgvector** | Relational DB Extension | C (PostgreSQL) | HNSW, IVFFlat | PostgreSQL |
-| **Elasticsearch**| Enterprise Search Engine | Java (Lucene) | HNSW (dense_vector) | Elastic / SSPL |
-| **Pinecone** | Managed Cloud SaaS | Proprietary | Hierarchical Graph | Proprietary |
-
----
-
-## 3. Scientific Benchmarking Methodology
-
-### A. Dataset Specification
-- **Dataset**: `BEIR/SciFact` (Biomedical claim verification corpus with expert relevance judgments).
-- **Corpus Subset**: Exactly 1,000 documents sampled deterministically (`seed=42`).
-- **Query Subset**: Exactly 50 search queries with corresponding ground truth mappings.
-- **Relevance Judgments (qrels)**: 54 binary positive judgments mapped within the subset.
-
-### B. Embedding Generation & Parity
-- **Model**: `sentence-transformers/all-MiniLM-L6-v2`.
-- **Inference Engine**: ONNX Runtime (`v1.30.0`) with HuggingFace Tokenizers (`v0.22.2`), bypassing Python GIL and CPython 3.14 free-threading DLL lockups.
-- **Dimensionality**: 384 dimensions, `float32`.
-- **Normalization**: $L_2$ unit normalization ($\|v\|_2 = 1.0$), ensuring Cosine Similarity equals Inner Product (Dot Product):
-  $$\text{Cosine}(u, v) = \frac{u \cdot v}{\|u\|_2 \|v\|_2} = u \cdot v \quad (\text{when } \|u\|=\|v\|=1)$$
-- **Strict Parity**: Vectors were computed **once**, validated for NaN/infinite values, and saved to disk (`doc_embeddings_384d.npy` and `query_embeddings_384d.npy`). Every database ingested the identical numpy arrays.
-
-### C. Experimental Rigor
-- **Hardware Isolation**: Windows 10 x64, Python 3.14.2, AMD/Intel multicore CPU.
-- **Warmup Cycles**: 10 warmup queries executed prior to latency recording to prime operating system caches and threadpools.
-- **Measurement Repetitions**: 50 queries executed across 3 randomized repetitions (150 total queries per engine).
-- **Latency Timer**: High-resolution monotonic clock (`time.perf_counter_ns`).
-
-### D. Information Retrieval (IR) Evaluation Metrics
-Given query $q$, retrieved top-$K$ candidate set $R_K(q)$, and ground-truth relevant set $G(q)$:
-
-1. **Recall@K**:
-   $$\text{Recall@}K = \frac{|R_K(q) \cap G(q)|}{|G(q)|}$$
-2. **Precision@K**:
-   $$\text{Precision@}K = \frac{|R_K(q) \cap G(q)|}{K}$$
-3. **Hit Rate@K**:
-   $$\text{Hit Rate@}K = \mathbb{I}(|R_K(q) \cap G(q)| > 0)$$
-4. **Mean Reciprocal Rank (MRR)**:
-   $$\text{MRR} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}$$
-5. **Normalized Discounted Cumulative Gain (NDCG@K)**:
-   $$\text{DCG@}K = \sum_{i=1}^{K} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}, \quad \text{NDCG@}K = \frac{\text{DCG@}K}{\text{IDCG@}K}$$
-
----
-
-## 4. Empirical Experimental Results
-
-All experiments were executed using identical 1,000 document vectors and 50 query vectors with $K=10$.
-
-| Metric / Parameter | Qdrant (Embedded) | Chroma (Persistent) | FAISS (In-Memory Flat) | Milvus | Weaviate | pgvector | Elasticsearch | Pinecone |
+| Metric / Parameter | Qdrant (Embedded) | Chroma (Persistent) | FAISS (In-Memory Baseline) | Milvus | Weaviate | pgvector | Elasticsearch | Pinecone |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Execution Status** | **BENCHMARKED** | **BENCHMARKED** | **BENCHMARKED** | Not Benchmarked | Not Benchmarked | Not Benchmarked | Not Benchmarked | Not Benchmarked |
+| **Execution Status** | **BENCHMARKED** | **BENCHMARKED** | **BENCHMARKED** | *Not Benchmarked* | *Not Benchmarked* | *Not Benchmarked* | *Not Benchmarked* | *Not Benchmarked* |
 | **Status Reason** | Local In-Process | Local Persistent | In-Process Baseline | *pymilvus uninstalled* | *weaviate uninstalled* | *no Postgres daemon* | *no ES daemon* | *API Key Not Set* |
-| **Ingestion (vec/s)** | **797.0** | **386.4** | **300,571.1** | — | — | — | — | — |
-| **Total Ingestion Time** | 1.255 s | 2.588 s | 0.003 s | — | — | — | — | — |
-| **Median Latency (P50)** | **5.12 ms** | **4.85 ms** | **0.29 ms** | — | — | — | — | — |
-| **95th Percentile (P95)** | **16.82 ms** | **11.05 ms** | **0.87 ms** | — | — | — | — | — |
-| **99th Percentile (P99)** | 45.77 ms | 36.04 ms | 1.28 ms | — | — | — | — | — |
-| **Mean Latency** | 7.40 ms | 6.53 ms | 0.37 ms | — | — | — | — | — |
-| **Throughput (QPS)** | **134.2** | **152.6** | **2,590.7** | — | — | — | — | — |
+| **Ingestion Throughput** | **1,121.7 vec/s** | **360.7 vec/s** | **422,493.6 vec/s** | — | — | — | — | — |
+| **Total Ingestion Duration**| **0.892 s** | **2.772 s** | **0.002 s** | — | — | — | — | — |
+| **Median Latency (P50)** | **4.43 ms** | **3.24 ms** | **0.23 ms** | — | — | — | — | — |
+| **95th Percentile (P95)** | **6.70 ms** | **5.01 ms** | **0.47 ms** | — | — | — | — | — |
+| **99th Percentile (P99)** | **7.42 ms** | **5.59 ms** | **1.73 ms** | — | — | — | — | — |
+| **Mean Latency** | **4.77 ms** | **3.52 ms** | **0.28 ms** | — | — | — | — | — |
+| **Throughput (QPS)** | **208.9 QPS** | **282.7 QPS** | **3,452.2 QPS** | — | — | — | — | — |
 | **Recall@10** | **0.8700** | **0.8700** | **0.8700** | — | — | — | — | — |
 | **Precision@10** | **0.0940** | **0.0940** | **0.0940** | — | — | — | — | — |
 | **Hit Rate@10** | **0.8800** | **0.8800** | **0.8800** | — | — | — | — | — |
 | **MRR** | **0.7295** | **0.7295** | **0.7295** | — | — | — | — | — |
 | **NDCG@10** | **0.7602** | **0.7602** | **0.7602** | — | — | — | — | — |
 
-### Key Experimental Insights
-1. **Mathematical Quality Parity**: Qdrant, Chroma, and FAISS achieved **identical** retrieval quality scores ($\text{Recall@10} = 0.8700$, $\text{MRR} = 0.7295$, $\text{NDCG@10} = 0.7602$). This proves that embedding normalization and index distance math were strictly equivalent across all three engines.
-2. **Raw Vector Compute vs Database Overhead**: FAISS operates purely as an in-memory C++ library without transaction logs, locking, or persistence overhead, achieving 300,571 vectors/sec ingestion and 2,590.7 QPS with sub-millisecond P50 ($0.29\text{ ms}$).
-3. **Database Durability Trade-offs**: Chroma and Qdrant incorporate persistent metadata storage, payload tracking, and search indexing structures, delivering practical production query latencies ($4.85\text{ ms}$ and $5.12\text{ ms}$ P50) while providing persistent storage.
+### Empirical Insights
+1. **Consistent Retrieval Behavior**: Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.
+2. **Algorithmic Library Ceiling vs Database Overhead**: FAISS operates strictly in memory as a C++ library without persistence, transaction logs, or network serialization, achieving 422,493.6 vectors/sec ingestion and 3,452.2 QPS with a 0.23 ms P50 latency.
+3. **Embedded Database Durability**: Chroma (360.7 vec/s, 3.24 ms P50) and Qdrant (1,121.7 vec/s, 4.43 ms P50) deliver robust sub-5ms query response times while managing persistent metadata, payload indexing structures, and write-ahead logs.
 
 ---
 
-## 5. In-Depth Technical Comparison & Trade-off Analysis
+## Technical Comparison of All 8 Vector Databases
 
-### 1. Storage & Persistence Architectures
-- **Qdrant**: Employs RocksDB and memory-mapped (`mmap`) segment vector payloads. Mutations append to a Write-Ahead Log (WAL) with configurable segment optimization.
-- **Chroma**: Utilizes SQLite for collection and metadata schemas, with HNSW graph vector storage serialized through `hnswlib`.
-- **FAISS**: Pure in-memory C++ contiguous buffers. Persistence is manual (explicit file serialization) or via memory-mapped IVF inverted lists (`OnDiskInvertedLists`).
-- **Milvus**: Cloud-native decoupled architecture. Log broker (Kafka/Pulsar) serves as WAL; immutable data segments are stored in S3/MinIO; state is coordinated via Etcd.
-- **Weaviate**: Custom LSM-tree architecture for property storage with inverted indexes and dynamic HNSW vector caches.
-- **pgvector**: Extends PostgreSQL heap pages and shared buffer cache. Fully participates in PostgreSQL ACID transactions and Write-Ahead Logging (WAL).
-- **Elasticsearch**: Apache Lucene immutable segments with segment merging and translog durability. Dense vectors are stored in `.vec` and `.vem` Lucene files.
-- **Pinecone**: Proprietary managed cloud storage tiered between ultra-fast NVMe SSD blob caches and object storage.
+The platform evaluates the 8 vector databases across key technical dimensions:
+
+### 1. Architectural Taxonomy
+- **Qdrant**: Native vector database engineered in Rust. Combines RocksDB metadata storage with segmented memory-mapped (`mmap`) vector payloads and segment write-ahead logs. Supports both embedded in-process execution and distributed multi-node clusters using Raft consensus.
+- **Chroma**: Embedded / local-first vector store built in Python and Rust. Uses SQLite for metadata cataloging and schemas, coupled with `hnswlib` for vector index storage. Ideal for rapid prototyping and local LLM agents.
+- **FAISS**: In-process C++ vector similarity-search library developed by Meta AI. Focuses strictly on algorithmic vector search and clustering (Flat, HNSW, IVF, PQ). Does not include server daemons, durability, CRUD mutations, or payload metadata filtering.
+- **Milvus**: Distributed, cloud-native vector database (LF AI & Data Foundation). Fully decoupled architecture: stateless QueryNodes, DataNodes, and IndexNodes, backed by S3/MinIO object storage, Etcd coordination, and Apache Kafka/Pulsar log brokers acting as the write-ahead log.
+- **Weaviate**: Native vector search engine written in Go. Uses a custom LSM-tree storage architecture for properties and vectors, dynamic HNSW index caches, built-in BM25 full-text search, and multi-node Raft consensus.
+- **pgvector**: Open-source C extension for PostgreSQL by Andrew Kane. Brings HNSW and IVFFlat vector indexing directly into PostgreSQL relational tables, providing full ACID transaction guarantees, WAL durability, SQL query planner integration, and relational joins.
+- **Elasticsearch**: Distributed search and analytics engine (Java / Apache Lucene). Dense vector indexing (`dense_vector`) using Lucene HNSW graphs alongside industry-standard Lucene inverted indexes for BM25 text relevance.
+- **Pinecone**: Proprietary managed cloud vector database SaaS. Cloud-native serverless architecture decoupling query routing from tiered storage (NVMe SSD blob caches + cloud object storage) with automated index scaling.
 
 ### 2. Approximate Nearest Neighbor (ANN) Indexing
-- **HNSW (Hierarchical Navigable Small World)**: Used by Qdrant, Chroma, FAISS, Weaviate, pgvector, and Elasticsearch. Constructs a multi-layer geometric graph enabling logarithmic search complexity $\mathcal{O}(\log N)$.
-- **Inverted File (IVF)**: Supported by FAISS and Milvus. Partitions vector space into Voronoi cells via $k$-means clustering, searching only candidate cells during query time.
-- **Quantization (PQ / SQ / BQ)**:
-  - *Scalar Quantization (SQ)*: Compresses 32-bit floats to 8-bit integers (4x memory reduction).
-  - *Product Quantization (PQ)*: Decomposes vector dimensions into sub-vectors and quantizes into centroids (8x–16x memory reduction).
-  - *Binary Quantization (BQ)*: Thresholds vector components to 1-bit signs (32x memory reduction).
+- **HNSW (Hierarchical Navigable Small World)**: Supported by Qdrant, Chroma, FAISS, Weaviate, pgvector, and Elasticsearch. Multi-layer proximity graph providing logarithmic $\mathcal{O}(\log N)$ search complexity.
+- **Inverted File (IVF)**: Supported by FAISS and Milvus. Partitions the vector space into Voronoi cells via $k$-means clustering, probing only the closest centroids during search.
+- **Vector Quantization (PQ / SQ / BQ)**:
+  - *Scalar Quantization (SQ)*: Quantizes 32-bit floats to 8-bit integers (4x RAM reduction with minimal recall loss). Supported by Qdrant, Milvus, Weaviate, and Elasticsearch.
+  - *Product Quantization (PQ)*: Decomposes vector dimensions into orthogonal sub-vectors and quantizes to centroids (8x–16x RAM reduction). Supported by FAISS, Milvus, Qdrant, and Weaviate.
+  - *Binary Quantization (BQ)*: Thresholds vector components to 1-bit signs (32x compression for Hamming distance search). Supported by Qdrant, FAISS, Milvus, Weaviate, and pgvector (v0.7+).
 
 ### 3. Metadata Filtering Paradigms
-- **Pre-Filtering**: Filters candidate IDs using scalar/relational conditions first, then performs vector search on the remaining subset. Suffers from high latency when the filtered subset is small and graph connectivity is broken.
-- **Post-Filtering**: Performs ANN search on the entire vector space first, then discards hits that violate metadata filters. Suffers from recall collapse when filters are highly selective (top-$K$ may return 0 matches).
-- **Single-Stage (Integrated Graph Traversal)**: Implemented natively by Qdrant and Weaviate. Traverses the HNSW graph while dynamically evaluating payload condition bitmasks at each vertex hop, guaranteeing exact Top-$K$ retrieval without recall loss.
+- **Pre-Filtering**: Evaluates scalar filters first, then searches the remaining vectors. Can suffer from high latency when the filtered subset is small and graph connectivity is fragmented.
+- **Post-Filtering**: Performs vector search across the entire dataset first, then discards non-matching hits. Suffers from recall collapse when filters are selective (Top-$K$ may return fewer than $K$ results).
+- **Single-Stage (Integrated Graph Traversal)**: Implemented natively by Qdrant and Weaviate. Evaluates payload filter bitmasks dynamically at each hop of the HNSW graph traversal, guaranteeing exact Top-$K$ retrieval without recall loss.
 
-### 4. Hybrid Search (Dense + Sparse Fusion)
+### 4. Hybrid Search & Fusion
 - **Reciprocal Rank Fusion (RRF)**:
   $$\text{RRF\_Score}(d) = \sum_{m \in M} \frac{1}{60 + \text{rank}_m(d)}$$
-  Supported natively by Qdrant, Milvus, Weaviate, and Elasticsearch. Combines BM25 lexical keyword scores with dense vector semantic rankings without requiring score normalization.
+  Native support in Qdrant, Milvus, Weaviate, and Elasticsearch. Combines BM25 lexical keyword rankings with dense semantic vector rankings without requiring manual score normalization.
 
 ---
 
-## 6. Primary Excel Deliverable Specification
+## Primary Excel Deliverable (`VDB_Comprehensive_Analysis.xlsx`)
 
-The generated workbook strictly meets all requirements:
-- **File Path**: [`outputs/excel/VDB_Comprehensive_Analysis.xlsx`](file:///c:/Users/User/Downloads/VED-Task/outputs/excel/VDB_Comprehensive_Analysis.xlsx)
+The primary artifact strictly adheres to the requirement:
+- **File**: [`outputs/excel/VDB_Comprehensive_Analysis.xlsx`](file:///c:/Users/User/Downloads/VED-Task/outputs/excel/VDB_Comprehensive_Analysis.xlsx)
 - **Worksheet Count**: **EXACTLY 1** (named `VDB_Master_Comparison`)
-- **Total Columns**: 11 (`Technical Parameter`, `Dimension / Category`, `Data Type`, and the 8 VDBs)
-- **Total Rows**: 73 structured rows
+- **Structure**: 78 total rows, 11 columns, frozen at cell `D6`
+- **Visual Design**: Executive Navy banner (`#1B365D`), dark slate section dividers (`#243B53`), alternating clean white (`#FFFFFF`) and soft slate (`#F8FAFC`) striping, thin borders (`#CBD5E1`), and colored badges for `MEASURED` and `DOCUMENTATION` parameters.
 
-### Worksheet Layout & Hierarchy
-```
-Row 1:  [MASTER BANNER] Deep Navy (#1B365D), Bold White 14pt (A1:K1 merged)
-Row 2:  [SUBTITLE] Slate Navy (#2C3E50), Italic White 10pt (A2:K2 merged)
-Row 3:  [METADATA] Soft Slate Blue (#EAEFF5), Bold 9pt (A3:K3 merged)
-Row 4:  [SPACER ROW]
-Row 5:  [TABLE HEADERS] Navy Fill (#1B365D), Bold White 10.5pt, Centered
-Row 6+: [SECTIONS & DATA ROWS]
-        ├── SECTION A: General Information & Metadata (5 rows)
-        ├── SECTION B: Architecture & Storage Model (4 rows)
-        ├── SECTION C: Vector Search & Indexing Capabilities (6 rows)
-        ├── SECTION D: Filtering & Hybrid Retrieval (4 rows)
-        ├── SECTION E: Scalability & Distributed Architecture (3 rows)
-        ├── SECTION F: Developer Experience & Ecosystem (3 rows)
-        ├── SECTION G: Deployment, Security & Operations (3 rows)
-        ├── SECTION H: Commercial & Cost Considerations (2 rows)
-        ├── SECTION I: Benchmark Experimental Conditions (5 rows)
-        ├── SECTION J: Measured Ingestion Performance (3 rows)
-        ├── SECTION K: Measured Query Latency & Throughput (5 rows)
-        ├── SECTION L: Measured Information Retrieval (IR) Quality (5 rows)
-        ├── SECTION M: Architectural Synthesis & Trade-offs (3 rows)
-        └── SECTION N: Technical Documentation References (2 rows)
-```
-
-### Visual & Functional Design Standards
-- **Freeze Panes**: Frozen at cell `D6`. Headers (Rows 1–5) and Parameter Identifiers (Columns A–C) remain anchored during horizontal and vertical scrolling.
-- **Section Dividers**: Deep Blue-Gray (`#243B53`), white bold text, row height 24pt.
-- **Zebra Striping**: Alternating clean white (`#FFFFFF`) and slate tint (`#F8FAFC`).
-- **Data Badging**:
-  - `MEASURED`: Forest green fill (`#ECFDF5`), emerald text (`#065F46`).
-  - `DOCUMENTATION`: Soft blue fill (`#EFF6FF`), royal blue text (`#1E40AF`).
-- **Measured Data Formatting**: Benchmarked cells styled with subtle green background (`#F0FDF4`); unbenchmarked cells styled in muted italic slate (`#64748B`).
+### 14 Worksheet Sections:
+- **Section A**: General Information & Metadata (Developer, Category, Core Language, License, Release Year, Documentation)
+- **Section B**: Architecture & Storage Model (Deployment Topology, Storage Architecture, Decoupling, WAL & Durability)
+- **Section C**: Vector Search & Indexing Capabilities (ANN Index Types, Exact kNN Flat, Distance Metrics, Quantization, Disk Indexing, Max Dimensions)
+- **Section D**: Filtering & Hybrid Retrieval (Filtering Paradigms, Payload Indexing, BM25 Keyword Search, Sparse-Dense Fusion)
+- **Section E**: Scalability & Distributed Architecture (Horizontal Sharding, Read Replicas, High Availability, Consensus Protocols)
+- **Section F**: Developer Experience & Ecosystem (Client Protocols, Official SDKs, LangChain/LlamaIndex Integration)
+- **Section G**: Deployment, Security & Operations (Embedded Mode, Docker/Kubernetes, RBAC & Authentication)
+- **Section H**: Commercial & Cost Considerations (Cloud SaaS Availability, Infrastructure TCO)
+- **Section I**: Benchmark Experimental Conditions (Execution Status, Corpus Docs, Queries, Judgments, Dimensions, Workload, Scope Notice, FAISS Scope)
+- **Section J**: Measured Ingestion Performance (Vectors/Sec Throughput, Total Ingestion Duration, Index Build Time)
+- **Section K**: Measured Query Latency & Throughput (Median P50, Tail P95, Tail P99, Mean Latency, Sequential QPS)
+- **Section L**: Measured Information Retrieval (IR) Quality (Recall@10, Precision@10, Hit Rate@10, MRR, NDCG@10, Retrieval Quality Summary)
+- **Section M**: Architectural Synthesis & Trade-offs (Core Advantages, Primary Architectural Limitations, Optimal Production Use Cases)
+- **Section N**: Technical Documentation References (Official Documentation URLs, Official GitHub Repositories)
 
 ---
 
-## 7. Repository Structure
+## Repository Structure
 
 ```
 VED-Task/
-├── README.md                           # Master architectural and benchmark documentation
-├── requirements.txt                    # Python package dependencies
-├── .gitignore                          # Standard git exclusion rules
-├── main.py                             # Master CLI orchestration pipeline
+├── README.md                           # Master technical documentation & empirical findings
+├── requirements.txt                    # Pinned, tested Python dependencies
+├── .gitignore                          # Standard git ignore rules (strictly excludes secrets/.env)
+├── main.py                             # Unified CLI pipeline entry point
 │
 ├── config/
 │   └── benchmark_config.yaml           # Centralized configuration (dataset, model, VDBs)
@@ -277,9 +174,9 @@ VED-Task/
 │   │   └── embedder.py                 # ONNX MiniLM vector embedding engine
 │   ├── adapters/
 │   │   ├── base.py                     # BaseVectorDBAdapter interface definition
-│   │   ├── qdrant_adapter.py           # Qdrant client implementation
+│   │   ├── qdrant_adapter.py           # Qdrant client implementation (embedded & client-server)
 │   │   ├── chroma_adapter.py           # ChromaDB persistent client implementation
-│   │   ├── faiss_adapter.py            # FAISS IndexFlatIP C++ engine adapter
+│   │   ├── faiss_adapter.py            # FAISS IndexFlatIP C++ library adapter
 │   │   ├── milvus_adapter.py           # PyMilvus adapter with graceful fallback
 │   │   ├── weaviate_adapter.py         # Weaviate v4 adapter with graceful fallback
 │   │   ├── pgvector_adapter.py         # PostgreSQL pgvector adapter with fallback
@@ -315,50 +212,46 @@ VED-Task/
 
 ---
 
-## 8. Reproducibility & Execution Guide
+## Reproducibility & Execution Guide
 
-### Prerequisites
-- Python 3.10+ (Tested on Python 3.14.2 on Windows 10 x64)
-- Git and Internet connection (for initial SciFact download)
-
-### Step 1: Install Dependencies
+### 1. Installation
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-### Step 2: Run End-to-End Pipeline
-To run data acquisition, embedding generation, adapter validation, benchmarking, and Excel report generation in a single automated command:
+### 2. End-to-End Pipeline Execution
+To execute data acquisition, embedding generation, adapter validation, benchmarking, and Excel reporting in one command:
 ```bash
 python main.py --all
 ```
 
-### Step 3: Run Modular Stages Individually
+### 3. Modular Stage Execution
 ```bash
-# 1. Download SciFact and generate 1,000 doc / 50 query deterministic subset
+# Prepare dataset (BEIR/SciFact 1,000 docs / 50 queries)
 python main.py --prepare-data
 
-# 2. Generate 384-dimensional unit-normalized embeddings via ONNX Runtime
+# Generate 384-dimensional unit-normalized embeddings via ONNX
 python main.py --generate-embeddings
 
-# 3. Perform smoke test connectivity checks on all 8 database adapters
+# Run adapter smoke test connectivity checks
 python main.py --validate
 
-# 4. Execute the master benchmark harness across all databases
+# Run master benchmark across all databases
 python main.py --run-benchmark
 
-# 5. Generate the final single-worksheet Excel comparison report
+# Generate the single-worksheet Excel report
 python main.py --generate-report
 ```
 
-### Step 4: Verify the Excel Deliverable
+### 4. Excel Deliverable Verification
+Verify that the generated workbook contains exactly one worksheet and opens cleanly:
 ```bash
-python -c "import openpyxl; wb = openpyxl.load_workbook('outputs/excel/VDB_Comprehensive_Analysis.xlsx'); print('Sheets:', wb.sheetnames); print('Total Rows:', wb.active.max_row); print('Total Columns:', wb.active.max_column)"
+python -c "import openpyxl; wb = openpyxl.load_workbook('outputs/excel/VDB_Comprehensive_Analysis.xlsx'); print('Sheets:', wb.sheetnames); print('Rows:', wb.active.max_row, 'Cols:', wb.active.max_column)"
 ```
-**Expected Verification Output:**
+*Expected Output:*
 ```
 Sheets: ['VDB_Master_Comparison']
-Total Rows: 73
-Total Columns: 11
+Rows: 78 Cols: 11
 ```
 
 ---

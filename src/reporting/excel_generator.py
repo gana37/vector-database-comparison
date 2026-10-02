@@ -98,7 +98,7 @@ def generate_excel_report(
     # =========================================================================
     ws.merge_cells("A2:K2")
     sub_cell = ws["A2"]
-    sub_cell.value = "Comprehensive Architectural Evaluation, Empirical IR Benchmarks (BEIR/SciFact), and Production Trade-off Matrix across 8 Vector Engines"
+    sub_cell.value = "Technical Comparison: All 8 VDBs | Empirically Benchmarked: Qdrant, Chroma, FAISS | Not Benchmarked: Milvus, Weaviate, pgvector, Elasticsearch, Pinecone"
     sub_cell.font = Font(name=FONT_FAMILY, size=10, italic=True, color="FFFFFF")
     sub_cell.fill = PatternFill(start_color=COLOR_SUBTITLE_BG, end_color=COLOR_SUBTITLE_BG, fill_type="solid")
     sub_cell.alignment = Alignment(horizontal="center", vertical="center")
@@ -114,8 +114,8 @@ def generate_excel_report(
     # =========================================================================
     ws.merge_cells("A3:K3")
     meta_cell = ws["A3"]
-    meta_cell.value = "Author: AI/ML Engineering Team | Target: AgentAnalytics.AI | Dataset: BEIR/SciFact (1,000 Docs / 50 Queries) | Model: all-MiniLM-L6-v2 (384-d, L2 Norm) | Workload: Top-K=10, 150 Executions"
-    meta_cell.font = Font(name=FONT_FAMILY, size=9, bold=True, color="1E293B")
+    meta_cell.value = "Workload: 1,000 documents | 50 queries | 54 ground-truth relevance judgments | all-MiniLM-L6-v2 (384-d normalized) | Top-K=10 | 3 repetitions | Metrics: Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10 | Notice: Controlled workload results; not universal claims."
+    meta_cell.font = Font(name=FONT_FAMILY, size=8.5, bold=True, color="1E293B")
     meta_cell.fill = PatternFill(start_color=COLOR_META_BG, end_color=COLOR_META_BG, fill_type="solid")
     meta_cell.alignment = Alignment(horizontal="center", vertical="center")
     ws.row_dimensions[3].height = 20

@@ -81,7 +81,7 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
         "type": "DOCUMENTATION",
         "Qdrant": "Native Vector Database",
         "Chroma": "Embedded / Local-First Vector Store",
-        "FAISS": "Vector Similarity Search Library",
+        "FAISS": "Vector Similarity Search Library (In-Process Algorithmic Baseline; not a full client-server database)",
         "Milvus": "Distributed Cloud-Native Vector Database",
         "Weaviate": "Native Vector Search Engine",
         "pgvector": "Relational Database Extension (PostgreSQL)",
@@ -503,7 +503,7 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
         "type": "MEASURED",
         "Qdrant": "BENCHMARKED (Local Embedded Mode)",
         "Chroma": "BENCHMARKED (Local Persistent Mode)",
-        "FAISS": "BENCHMARKED (In-Process Flat Baseline)",
+        "FAISS": "BENCHMARKED (In-Process Algorithmic Baseline)",
         "Milvus": "NOT BENCHMARKED (pymilvus uninstalled)",
         "Weaviate": "NOT BENCHMARKED (weaviate-client uninstalled)",
         "pgvector": "NOT BENCHMARKED (psycopg2 uninstalled / no daemon)",
@@ -512,29 +512,42 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
     })
     rows.append({
         "section": "I. Benchmark Experimental Conditions",
-        "parameter": "Benchmark Dataset & Subset",
+        "parameter": "Evaluated Corpus Documents",
         "type": "MEASURED",
-        "Qdrant": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "Chroma": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "FAISS": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "Milvus": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "Weaviate": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "pgvector": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "Elasticsearch": "BEIR/SciFact (1,000 Documents / 50 Queries)",
-        "Pinecone": "BEIR/SciFact (1,000 Documents / 50 Queries)"
+        "Qdrant": "1,000 Documents (BEIR/SciFact subset)",
+        "Chroma": "1,000 Documents (BEIR/SciFact subset)",
+        "FAISS": "1,000 Documents (BEIR/SciFact subset)",
+        "Milvus": "1,000 Documents (BEIR/SciFact subset)",
+        "Weaviate": "1,000 Documents (BEIR/SciFact subset)",
+        "pgvector": "1,000 Documents (BEIR/SciFact subset)",
+        "Elasticsearch": "1,000 Documents (BEIR/SciFact subset)",
+        "Pinecone": "1,000 Documents (BEIR/SciFact subset)"
+    })
+    rows.append({
+        "section": "I. Benchmark Experimental Conditions",
+        "parameter": "Evaluated Query Set & Relevance Judgments",
+        "type": "MEASURED",
+        "Qdrant": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "Chroma": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "FAISS": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "Milvus": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "Weaviate": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "pgvector": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "Elasticsearch": "50 Queries | 54 Ground-Truth Relevance Judgments",
+        "Pinecone": "50 Queries | 54 Ground-Truth Relevance Judgments"
     })
     rows.append({
         "section": "I. Benchmark Experimental Conditions",
         "parameter": "Embedding Model & Dimensions",
         "type": "MEASURED",
-        "Qdrant": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "Chroma": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "FAISS": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "Milvus": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "Weaviate": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "pgvector": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "Elasticsearch": "all-MiniLM-L6-v2 (384 dimensions, Float32)",
-        "Pinecone": "all-MiniLM-L6-v2 (384 dimensions, Float32)"
+        "Qdrant": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "Chroma": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "FAISS": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "Milvus": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "Weaviate": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "pgvector": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "Elasticsearch": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+        "Pinecone": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)"
     })
     rows.append({
         "section": "I. Benchmark Experimental Conditions",
@@ -561,6 +574,45 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
         "pgvector": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
         "Elasticsearch": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
         "Pinecone": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)"
+    })
+    rows.append({
+        "section": "I. Benchmark Experimental Conditions",
+        "parameter": "Evaluated Performance & IR Metrics",
+        "type": "MEASURED",
+        "Qdrant": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "Chroma": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "FAISS": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "Milvus": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "Weaviate": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "pgvector": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "Elasticsearch": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+        "Pinecone": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10"
+    })
+    rows.append({
+        "section": "I. Benchmark Experimental Conditions",
+        "parameter": "FAISS System Architectural Scope",
+        "type": "DOCUMENTATION",
+        "Qdrant": "Full Client-Server / Embedded Vector Database with storage & filtering",
+        "Chroma": "Embedded / Local-First Vector Store with SQLite & metadata filtering",
+        "FAISS": "In-process vector similarity search library / algorithmic baseline (not a full database)",
+        "Milvus": "Full Distributed Cloud-Native Vector Database with storage & filtering",
+        "Weaviate": "Full Native Vector Search Engine with inverted index & BM25 hybrid",
+        "pgvector": "Full Relational Database Extension with PostgreSQL ACID transactions",
+        "Elasticsearch": "Full Enterprise Search Engine with Apache Lucene dense_vector",
+        "Pinecone": "Full Managed Cloud SaaS Vector Database with serverless indexing"
+    })
+    rows.append({
+        "section": "I. Benchmark Experimental Conditions",
+        "parameter": "Controlled Workload Scope & Notice",
+        "type": "DOCUMENTATION",
+        "Qdrant": "Results apply only to this controlled workload; not universal performance claims",
+        "Chroma": "Results apply only to this controlled workload; not universal performance claims",
+        "FAISS": "Results apply only to this controlled workload; not universal performance claims",
+        "Milvus": "Results apply only to this controlled workload; not universal performance claims",
+        "Weaviate": "Results apply only to this controlled workload; not universal performance claims",
+        "pgvector": "Results apply only to this controlled workload; not universal performance claims",
+        "Elasticsearch": "Results apply only to this controlled workload; not universal performance claims",
+        "Pinecone": "Results apply only to this controlled workload; not universal performance claims"
     })
 
     # =========================================================================
@@ -743,6 +795,19 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
         "Elasticsearch": fmt_measured(es_m, "retrieval_quality", "ndcg_at_10", "", "{:.4f}"),
         "Pinecone": fmt_measured(pinecone_m, "retrieval_quality", "ndcg_at_10", "", "{:.4f}")
     })
+    rows.append({
+        "section": "L. Measured Information Retrieval (IR) Quality",
+        "parameter": "Empirical Retrieval Quality Summary",
+        "type": "MEASURED",
+        "Qdrant": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+        "Chroma": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+        "FAISS": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+        "Milvus": "Not Benchmarked (see execution status)",
+        "Weaviate": "Not Benchmarked (see execution status)",
+        "pgvector": "Not Benchmarked (see execution status)",
+        "Elasticsearch": "Not Benchmarked (see execution status)",
+        "Pinecone": "Not Benchmarked (see execution status)"
+    })
 
     # =========================================================================
     # SECTION M: ARCHITECTURAL SYNTHESIS & TRADE-OFFS
@@ -766,7 +831,7 @@ def get_exhaustive_technical_data(benchmark_summary: Dict[str, Any]) -> List[Dic
         "type": "DOCUMENTATION",
         "Qdrant": "High memory consumption for uncompressed HNSW graphs; smaller ecosystem than Elasticsearch.",
         "Chroma": "Single-writer SQLite bottleneck in embedded mode; lacks advanced multi-tenant cluster features.",
-        "FAISS": "Not a database: lacks storage durability, CRUD mutations, network APIs, security, and payload filtering.",
+        "FAISS": "Not a database: in-process similarity search library only; lacks network server daemon, client-server API protocols, storage durability (WAL), CRUD mutations, security, multi-tenancy, and metadata payload filtering.",
         "Milvus": "High deployment complexity (requires Etcd, MinIO, Pulsar microservices); steep operational overhead.",
         "Weaviate": "Heavy memory footprint for HNSW graphs; complex configuration for enterprise multi-tenancy.",
         "pgvector": "Lower QPS and higher latency under heavy vector search compared to specialized Rust/C++ native engines.",
