@@ -1,0 +1,13 @@
+[2026-10-02 16:01:55] [INFO] [prepare_scifact]: ============================================================
+[2026-10-02 16:01:55] [INFO] [prepare_scifact]: PHASE 1: DATASET ACQUISITION & VALIDATION
+[2026-10-02 16:01:55] [INFO] [prepare_scifact]: ============================================================
+[2026-10-02 16:01:55] [INFO] [beir_loader]: Downloading SciFact dataset from https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip...
+[2026-10-02 16:02:04] [INFO] [beir_loader]: Downloaded SciFact archive (2750.1 KB)
+[2026-10-02 16:02:04] [INFO] [beir_loader]: Extracting data/raw\scifact.zip to data/raw...
+[2026-10-02 16:02:05] [INFO] [beir_loader]: Extracted dataset successfully to data/raw/scifact
+[2026-10-02 16:02:06] [INFO] [beir_loader]: Parsed Raw SciFact Dataset: 5,183 docs, 1,109 queries, 339 qrel judgements
+[2026-10-02 16:02:07] [INFO] [beir_loader]: Deterministic Subset Created Successfully:
+[2026-10-02 16:02:07] [INFO] [beir_loader]:   - Documents: 1,000
+[2026-10-02 16:02:07] [INFO] [beir_loader]:   - Queries: 50
+[2026-10-02 16:02:07] [INFO] [beir_loader]:   - Relevant Judgments in Subset: 54
+[2026-10-02 16:02:07] [INFO] [beir_loader]:   - Files saved to: data/processed

@@ -1,0 +1,81 @@
+[2026-10-02 16:26:30] [INFO] [run_benchmark]: ======================================================================
+[2026-10-02 16:26:30] [INFO] [run_benchmark]: PHASE 5: MASTER BENCHMARK EXECUTION (8 VECTOR DATABASES)
+[2026-10-02 16:26:30] [INFO] [run_benchmark]: ======================================================================
+[2026-10-02 16:26:30] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:26:30] [INFO] [benchmark_runner]: STARTING BENCHMARK: QDRANT
+[2026-10-02 16:26:30] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:26:32] [INFO] [benchmark_runner]: [Qdrant] Creating collection 'scifact_bench_qdrant' (dim=384, metric=cosine)...
+[2026-10-02 16:26:32] [INFO] [benchmark_runner]: [Qdrant] Ingesting 1,000 vectors (batch_size=256)...
+[2026-10-02 16:29:13] [INFO] [benchmark_runner]: [Qdrant] Ingested in 161.056s (6.2 vectors/sec)
+[2026-10-02 16:29:13] [INFO] [benchmark_runner]: [Qdrant] Building index / optimizing...
+[2026-10-02 16:29:13] [INFO] [benchmark_runner]: [Qdrant] Index build time: 0.000s
+[2026-10-02 16:29:13] [INFO] [benchmark_runner]: [Qdrant] Executing 10 warm-up queries...
+[2026-10-02 16:29:14] [INFO] [benchmark_runner]: [Qdrant] Running 50 queries x 3 repetitions (Top-K=10)...
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]: [Qdrant] Calculating IR metrics against SciFact ground truth...
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]: [Qdrant] BENCHMARK COMPLETE:
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]:   - Ingestion: 6.2 vec/s | Index Build: 0.00s
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]:   - Latency: P50=8.52ms | P95=17.29ms | P99=37.93ms | Mean=9.77ms
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]:   - Throughput: 102.1 QPS
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]:   - IR Quality: Recall@10=0.8700 | MRR=0.7295 | NDCG@10=0.7602
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]: STARTING BENCHMARK: CHROMA
+[2026-10-02 16:29:15] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:19] [INFO] [benchmark_runner]: [Chroma] Creating collection 'scifact_bench_chroma' (dim=384, metric=cosine)...
+[2026-10-02 16:29:19] [INFO] [benchmark_runner]: [Chroma] Ingesting 1,000 vectors (batch_size=256)...
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Ingested in 3.463s (288.8 vectors/sec)
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Building index / optimizing...
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Index build time: 0.000s
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Executing 10 warm-up queries...
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Running 50 queries x 3 repetitions (Top-K=10)...
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] Calculating IR metrics against SciFact ground truth...
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]: [Chroma] BENCHMARK COMPLETE:
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]:   - Ingestion: 288.8 vec/s | Index Build: 0.00s
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]:   - Latency: P50=3.67ms | P95=5.59ms | P99=6.16ms | Mean=3.97ms
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]:   - Throughput: 251.1 QPS
+[2026-10-02 16:29:23] [INFO] [benchmark_runner]:   - IR Quality: Recall@10=0.8700 | MRR=0.7295 | NDCG@10=0.7602
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: FAISS
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Creating collection 'scifact_bench_faiss' (dim=384, metric=cosine)...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Ingesting 1,000 vectors (batch_size=256)...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Ingested in 0.002s (653,253.2 vectors/sec)
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Building index / optimizing...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Index build time: 0.000s
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Executing 10 warm-up queries...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Running 50 queries x 3 repetitions (Top-K=10)...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] Calculating IR metrics against SciFact ground truth...
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: [FAISS] BENCHMARK COMPLETE:
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]:   - Ingestion: 653,253.2 vec/s | Index Build: 0.00s
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]:   - Latency: P50=0.20ms | P95=0.43ms | P99=0.63ms | Mean=0.22ms
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]:   - Throughput: 4,311.9 QPS
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]:   - IR Quality: Recall@10=0.8700 | MRR=0.7295 | NDCG@10=0.7602
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: MILVUS
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [WARNING] [benchmark_runner]: [Milvus] Skipping live benchmark: pymilvus package not installed.
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: WEAVIATE
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [WARNING] [benchmark_runner]: [Weaviate] Skipping live benchmark: weaviate-client package not installed.
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: PGVECTOR
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [WARNING] [benchmark_runner]: [pgvector] Skipping live benchmark: psycopg2 package not installed.
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: ELASTICSEARCH
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [WARNING] [benchmark_runner]: [Elasticsearch] Skipping live benchmark: elasticsearch python client not installed.
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+==================================================
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: STARTING BENCHMARK: PINECONE
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: ==================================================
+[2026-10-02 16:29:24] [WARNING] [benchmark_runner]: [Pinecone] Skipping live benchmark: API Credentials Required: PINECONE_API_KEY environment variable is not configured. Cloud SaaS live benchmark skipped to avoid unauthenticated access and prevent cloud billing charges.
+[2026-10-02 16:29:24] [INFO] [benchmark_runner]: 
+All raw results serialized to: outputs/raw_results\benchmark_summary.json

@@ -1,0 +1,120 @@
+project:
+  name: "Vector Database Comparative Analysis and Benchmarking Platform"
+  version: "1.0.0"
+  author: "AI/ML Engineering Team"
+  organization: "AgentAnalytics.AI"
+
+dataset:
+  name: "BEIR/SciFact"
+  url: "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip"
+  raw_dir: "data/raw/scifact"
+  processed_dir: "data/processed"
+  subset_docs: 1000
+  subset_queries: 50
+  seed: 42
+
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  dimension: 384
+  normalize_l2: true
+  batch_size: 64
+  cache_dir: "data/embeddings"
+
+benchmark:
+  top_k: 10
+  warmup_queries: 10
+  repetitions: 3
+  seed: 42
+  metrics:
+    - "precision@10"
+    - "recall@10"
+    - "hit_rate@10"
+    - "mrr"
+    - "ndcg@10"
+    - "latency_mean"
+    - "latency_p50"
+    - "latency_p90"
+    - "latency_p95"
+    - "latency_p99"
+    - "throughput_qps"
+    - "ingestion_time"
+    - "vectors_per_sec"
+    - "index_build_time"
+    - "memory_rss_mb"
+
+databases:
+  qdrant:
+    name: "Qdrant"
+    category: "Native Vector Database"
+    mode: "embedded"
+    path: ":memory:"
+    collection_name: "scifact_benchmark"
+    distance: "Cosine"
+    hnsw_m: 16
+    ef_construct: 100
+
+  chroma:
+    name: "Chroma"
+    category: "Embedded / Local-First Vector Store"
+    mode: "embedded"
+    path: "data/chroma_storage"
+    collection_name: "scifact_benchmark"
+    distance: "cosine"
+
+  faiss:
+    name: "FAISS"
+    category: "Vector Similarity Search Library"
+    mode: "in-process"
+    index_type: "IndexFlatIP"
+    description: "Meta AI In-Process Flat / HNSW Algorithmic Baseline"
+
+  milvus:
+    name: "Milvus"
+    category: "Distributed Cloud-Native Vector Database"
+    mode: "standalone"
+    host: "localhost"
+    port: 19530
+    collection_name: "scifact_benchmark"
+    index_type: "HNSW"
+    metric_type: "COSINE"
+
+  weaviate:
+    name: "Weaviate"
+    category: "Native Vector Search Engine"
+    mode: "client-server"
+    host: "localhost"
+    port: 8080
+    grpc_port: 50051
+    class_name: "SciFactDocument"
+
+  pgvector:
+    name: "pgvector"
+    category: "Relational Extension (PostgreSQL)"
+    mode: "database-extension"
+    host: "localhost"
+    port: 5432
+    database: "vectordb"
+    user: "postgres"
+    password_env: "PGPASSWORD"
+    table_name: "scifact_vectors"
+
+  elasticsearch:
+    name: "Elasticsearch"
+    category: "Search Engine with Vector Extension"
+    mode: "client-server"
+    host: "http://localhost:9200"
+    index_name: "scifact_benchmark"
+
+  pinecone:
+    name: "Pinecone"
+    category: "Managed Cloud Vector SaaS"
+    mode: "cloud-saas"
+    api_key_env: "PINECONE_API_KEY"
+    environment_env: "PINECONE_ENVIRONMENT"
+    index_name: "scifact-benchmark"
+
+output:
+  raw_dir: "outputs/raw_results"
+  logs_dir: "outputs/logs"
+  excel_dir: "outputs/excel"
+  excel_filename: "VDB_Comprehensive_Analysis.xlsx"

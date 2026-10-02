@@ -1,0 +1,4 @@
+[2026-10-02 15:59:36] [INFO] [prepare_scifact]: ============================================================
+[2026-10-02 15:59:36] [INFO] [prepare_scifact]: PHASE 1: DATASET ACQUISITION & VALIDATION
+[2026-10-02 15:59:36] [INFO] [prepare_scifact]: ============================================================
+[2026-10-02 15:59:36] [INFO] [beir_loader]: Downloading SciFact dataset from https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip...

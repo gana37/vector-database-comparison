@@ -1,0 +1,82 @@
+[
+  {
+    "db_key": "qdrant",
+    "name": "Qdrant",
+    "deployment_mode": "Native Vector DB (Embedded)",
+    "version": "1.19.1",
+    "is_available": true,
+    "status_message": "Verified: Connect, Insert, Search, and Cleanup cycle succeeded.",
+    "smoke_test_passed": true,
+    "error": null
+  },
+  {
+    "db_key": "chroma",
+    "name": "Chroma",
+    "deployment_mode": "Embedded / Local-First Vector Store",
+    "version": "1.5.9",
+    "is_available": true,
+    "status_message": "Verified: Connect, Insert, Search, and Cleanup cycle succeeded.",
+    "smoke_test_passed": true,
+    "error": null
+  },
+  {
+    "db_key": "faiss",
+    "name": "FAISS",
+    "deployment_mode": "In-Process Algorithmic Library",
+    "version": "1.13.2",
+    "is_available": true,
+    "status_message": "Verified: Connect, Insert, Search, and Cleanup cycle succeeded.",
+    "smoke_test_passed": true,
+    "error": null
+  },
+  {
+    "db_key": "milvus",
+    "name": "Milvus",
+    "deployment_mode": "Distributed Vector Database",
+    "version": null,
+    "is_available": false,
+    "status_message": "pymilvus package not installed.",
+    "smoke_test_passed": false,
+    "error": null
+  },
+  {
+    "db_key": "weaviate",
+    "name": "Weaviate",
+    "deployment_mode": "Native Vector Search Engine",
+    "version": null,
+    "is_available": false,
+    "status_message": "weaviate-client package not installed.",
+    "smoke_test_passed": false,
+    "error": null
+  },
+  {
+    "db_key": "pgvector",
+    "name": "pgvector",
+    "deployment_mode": "Relational Database Extension (PostgreSQL)",
+    "version": null,
+    "is_available": false,
+    "status_message": "psycopg2 package not installed.",
+    "smoke_test_passed": false,
+    "error": null
+  },
+  {
+    "db_key": "elasticsearch",
+    "name": "Elasticsearch",
+    "deployment_mode": "Enterprise Search Engine (Lucene)",
+    "version": null,
+    "is_available": false,
+    "status_message": "elasticsearch python client not installed.",
+    "smoke_test_passed": false,
+    "error": null
+  },
+  {
+    "db_key": "pinecone",
+    "name": "Pinecone",
+    "deployment_mode": "Managed Cloud SaaS",
+    "version": null,
+    "is_available": false,
+    "status_message": "API Credentials Required: PINECONE_API_KEY environment variable is not configured. Cloud SaaS live benchmark skipped to avoid unauthenticated access and prevent cloud billing charges.",
+    "smoke_test_passed": false,
+    "error": null
+  }
+]

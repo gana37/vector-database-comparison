@@ -1,0 +1,10 @@
+{
+  "dataset_name": "BEIR/SciFact",
+  "total_raw_documents": 5183,
+  "total_raw_queries": 1109,
+  "subset_documents": 1000,
+  "subset_queries": 50,
+  "subset_relevance_judgments": 54,
+  "queries_with_ground_truth": 50,
+  "seed": 42
+}

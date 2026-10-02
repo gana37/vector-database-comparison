@@ -1,0 +1,192 @@
+{
+  "qdrant": {
+    "db_key": "qdrant",
+    "name": "Qdrant",
+    "category": "Native Vector Database",
+    "deployment_mode": "Native Vector DB (Embedded)",
+    "version": "1.19.1",
+    "benchmarked": true,
+    "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+    "ingestion": {
+      "total_insertion_time_sec": 0.892,
+      "vectors_per_sec": 1121.7,
+      "index_build_time_sec": 0.0
+    },
+    "latency": {
+      "mean_ms": 4.773,
+      "p50_ms": 4.426,
+      "p90_ms": 6.031,
+      "p95_ms": 6.698,
+      "p99_ms": 7.418,
+      "min_ms": 3.739,
+      "max_ms": 7.596,
+      "std_ms": 0.911
+    },
+    "throughput": {
+      "qps": 208.9,
+      "total_queries_measured": 150
+    },
+    "resources": {
+      "delta_rss_mb": 12.07,
+      "peak_rss_mb": 135.68,
+      "storage_mb": null
+    },
+    "retrieval_quality": {
+      "precision_at_10": 0.094,
+      "recall_at_10": 0.87,
+      "hit_rate_at_10": 0.88,
+      "mrr": 0.7295,
+      "ndcg_at_10": 0.7602
+    }
+  },
+  "chroma": {
+    "db_key": "chroma",
+    "name": "Chroma",
+    "category": "Embedded / Local-First Vector Store",
+    "deployment_mode": "Embedded / Local-First Vector Store",
+    "version": "1.5.9",
+    "benchmarked": true,
+    "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+    "ingestion": {
+      "total_insertion_time_sec": 2.772,
+      "vectors_per_sec": 360.7,
+      "index_build_time_sec": 0.0
+    },
+    "latency": {
+      "mean_ms": 3.524,
+      "p50_ms": 3.24,
+      "p90_ms": 4.708,
+      "p95_ms": 5.013,
+      "p99_ms": 5.595,
+      "min_ms": 2.658,
+      "max_ms": 6.545,
+      "std_ms": 0.746
+    },
+    "throughput": {
+      "qps": 282.7,
+      "total_queries_measured": 150
+    },
+    "resources": {
+      "delta_rss_mb": 27.45,
+      "peak_rss_mb": 166.07,
+      "storage_mb": 5.84
+    },
+    "retrieval_quality": {
+      "precision_at_10": 0.094,
+      "recall_at_10": 0.87,
+      "hit_rate_at_10": 0.88,
+      "mrr": 0.7295,
+      "ndcg_at_10": 0.7602
+    }
+  },
+  "faiss": {
+    "db_key": "faiss",
+    "name": "FAISS",
+    "category": "Vector Similarity Search Library",
+    "deployment_mode": "In-Process Algorithmic Library",
+    "version": "1.13.2",
+    "benchmarked": true,
+    "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+    "ingestion": {
+      "total_insertion_time_sec": 0.002,
+      "vectors_per_sec": 422493.6,
+      "index_build_time_sec": 0.0
+    },
+    "latency": {
+      "mean_ms": 0.28,
+      "p50_ms": 0.228,
+      "p90_ms": 0.352,
+      "p95_ms": 0.473,
+      "p99_ms": 1.727,
+      "min_ms": 0.104,
+      "max_ms": 2.577,
+      "std_ms": 0.269
+    },
+    "throughput": {
+      "qps": 3452.2,
+      "total_queries_measured": 150
+    },
+    "resources": {
+      "delta_rss_mb": 1.83,
+      "peak_rss_mb": 172.61,
+      "storage_mb": 1.46
+    },
+    "retrieval_quality": {
+      "precision_at_10": 0.094,
+      "recall_at_10": 0.87,
+      "hit_rate_at_10": 0.88,
+      "mrr": 0.7295,
+      "ndcg_at_10": 0.7602
+    }
+  },
+  "milvus": {
+    "db_key": "milvus",
+    "name": "Milvus",
+    "category": "Distributed Cloud-Native Vector Database",
+    "deployment_mode": "Distributed Vector Database",
+    "version": null,
+    "benchmarked": false,
+    "status_reason": "Not Benchmarked: pymilvus package not installed.",
+    "ingestion": {},
+    "latency": {},
+    "throughput": {},
+    "resources": {},
+    "retrieval_quality": {}
+  },
+  "weaviate": {
+    "db_key": "weaviate",
+    "name": "Weaviate",
+    "category": "Native Vector Search Engine",
+    "deployment_mode": "Native Vector Search Engine",
+    "version": null,
+    "benchmarked": false,
+    "status_reason": "Not Benchmarked: weaviate-client package not installed.",
+    "ingestion": {},
+    "latency": {},
+    "throughput": {},
+    "resources": {},
+    "retrieval_quality": {}
+  },
+  "pgvector": {
+    "db_key": "pgvector",
+    "name": "pgvector",
+    "category": "Relational Extension (PostgreSQL)",
+    "deployment_mode": "Relational Database Extension (PostgreSQL)",
+    "version": null,
+    "benchmarked": false,
+    "status_reason": "Not Benchmarked: psycopg2 package not installed.",
+    "ingestion": {},
+    "latency": {},
+    "throughput": {},
+    "resources": {},
+    "retrieval_quality": {}
+  },
+  "elasticsearch": {
+    "db_key": "elasticsearch",
+    "name": "Elasticsearch",
+    "category": "Search Engine with Vector Extension",
+    "deployment_mode": "Enterprise Search Engine (Lucene)",
+    "version": null,
+    "benchmarked": false,
+    "status_reason": "Not Benchmarked: elasticsearch python client not installed.",
+    "ingestion": {},
+    "latency": {},
+    "throughput": {},
+    "resources": {},
+    "retrieval_quality": {}
+  },
+  "pinecone": {
+    "db_key": "pinecone",
+    "name": "Pinecone",
+    "category": "Managed Cloud Vector SaaS",
+    "deployment_mode": "Managed Cloud SaaS",
+    "version": null,
+    "benchmarked": false,
+    "status_reason": "Not Benchmarked: API Credentials Required: PINECONE_API_KEY environment variable is not configured. Cloud SaaS live benchmark skipped to avoid unauthenticated access and prevent cloud billing charges.",
+    "ingestion": {},
+    "latency": {},
+    "throughput": {},
+    "resources": {},
+    "retrieval_quality": {}
+  }
+}
