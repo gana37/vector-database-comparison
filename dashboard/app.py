@@ -197,12 +197,6 @@ with st.sidebar:
     - **Top-K Retrieval**: 10 neighbors
     """)
 
-    st.markdown("---")
-    st.markdown("#### 🛡️ Scientific Integrity")
-    st.caption(
-        "Only **Qdrant, Chroma, and FAISS** were empirically benchmarked. "
-        "The remaining 5 systems are clearly marked as unbenchmarked with zero fabricated results."
-    )
 
 # =============================================================================
 # HEADER BANNER & SUMMARY KPI CARDS
@@ -314,13 +308,6 @@ with tabs[0]:
         }
     )
 
-    st.markdown("""
-    <div class="notice-box">
-        <strong>Strict Scientific Integrity:</strong> In strict compliance with experimental standards, no performance metrics 
-        are simulated, estimated, or fabricated for unbenchmarked systems (Milvus, Weaviate, pgvector, Elasticsearch, Pinecone). 
-        Only genuine live measurements collected on this machine are presented in benchmark charts.
-    </div>
-    """, unsafe_allow_html=True)
 
     col_l, col_r = st.columns(2)
     with col_l:
@@ -354,13 +341,6 @@ with tabs[1]:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="notice-box-warning">
-        <strong>Scope Notice:</strong> The performance charts below display ONLY the 3 systems that were genuinely benchmarked locally 
-        under controlled workload conditions (1,000 documents, 50 queries, 384 dimensions, Top-K=10). 
-        <strong>Milvus, Weaviate, pgvector, Elasticsearch, and Pinecone are intentionally excluded</strong> to prevent fabricated or misleading claims.
-    </div>
-    """, unsafe_allow_html=True)
 
     # Performance Dataframe for the 3 systems
     perf_data = []
@@ -505,13 +485,6 @@ with tabs[2]:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="notice-box">
-        <strong>Ground-Truth Workload:</strong> Retrieval quality was evaluated against official <strong>BEIR/SciFact</strong> 
-        binary relevance judgments (54 positive judgments in the 1,000-doc subset). 
-        All systems queried using the same 384-dimensional unit-normalized embeddings with Top-K=10.
-    </div>
-    """, unsafe_allow_html=True)
 
     ir_table = []
     for k in ["qdrant", "chroma", "faiss"]:
