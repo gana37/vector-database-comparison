@@ -165,7 +165,11 @@ VED-Task/
 │   ├── raw/scifact/                    # Raw BEIR SciFact jsonl & qrels
 │   ├── processed/                      # 1,000-doc & 50-query deterministic subsets
 │   ├── embeddings/                     # Pre-computed 384-d numpy vector caches
-│   └── models/                         # Local ONNX model weights and tokenizer
+│   ├── models/                         # Local ONNX model weights and tokenizer
+│   └── vdb_comparison.json             # Single-source-of-truth unified structured dataset
+│
+├── dashboard/
+│   └── app.py                          # Interactive Streamlit analytics & comparison dashboard
 │
 ├── src/
 │   ├── data/
@@ -188,7 +192,11 @@ VED-Task/
 │   │   ├── resource_monitor.py         # CPU, RSS RAM, and disk storage tracker
 │   │   └── validator.py                # Health check and adapter smoke tester
 │   ├── analysis/
-│   │   └── comparison.py               # Exhaustive 30+ attribute knowledge matrix
+│   │   ├── comparison.py               # Exhaustive 30+ attribute knowledge matrix
+│   │   └── data_loader.py              # Unified dataset builder and JSON exporter
+│   ├── assistant/
+│   │   ├── __init__.py                 # Assistant package entry
+│   │   └── vdb_assistant.py            # Data-grounded natural-language comparison assistant
 │   ├── reporting/
 │   │   └── excel_generator.py          # Single-worksheet openpyxl styling engine
 │   └── utils/
@@ -199,7 +207,9 @@ VED-Task/
 │   ├── generate_embeddings.py          # Phase 2 standalone vector embedding script
 │   ├── validate_adapters.py            # Phase 4 standalone adapter smoke test script
 │   ├── run_benchmark.py                # Phase 5 standalone master benchmark script
-│   └── generate_report.py              # Phase 8 standalone Excel generator script
+│   ├── generate_report.py              # Phase 8 standalone Excel generator script
+│   ├── launch_dashboard.py             # Launcher for interactive Streamlit dashboard
+│   └── interactive_assistant.py        # Interactive CLI comparison assistant
 │
 └── outputs/
     ├── raw_results/
@@ -220,12 +230,42 @@ python -m pip install -r requirements.txt
 ```
 
 ### 2. End-to-End Pipeline Execution
-To execute data acquisition, embedding generation, adapter validation, benchmarking, and Excel reporting in one command:
+To execute data acquisition, embedding generation, adapter validation, benchmarking, Excel reporting, and structured data synchronization in one command:
 ```bash
 python main.py --all
 ```
 
-### 3. Modular Stage Execution
+### 3. Interactive Analytics Dashboard (New Extension)
+Launch the interview-ready interactive dashboard with KPI cards, Plotly charts, side-by-side database comparison, and embedded assistant:
+```bash
+python main.py --dashboard
+# or directly via Streamlit:
+streamlit run dashboard/app.py
+```
+*The dashboard opens at `http://localhost:8501` featuring:*
+- **Overview**: System taxonomy, empirical findings, and primary Excel download button.
+- **Performance**: Ingestion throughput (vec/s), latency distributions (P50, P95, P99, Mean), QPS, RAM/storage for benchmarked systems (`Qdrant`, `Chroma`, `FAISS`).
+- **Retrieval Quality**: Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10 grouped bars and radar charts.
+- **Technical Capabilities**: Complete matrix across all 8 systems (search types, distance metrics, filtering, hybrid search, RRF, sharding, replication, security, licensing).
+- **VDB Comparison**: Interactive head-to-head comparison tool for any two systems.
+- **Natural-Language Assistant**: Data-grounded assistant with suggestion chips and chat interface.
+- **Methodology & Limitations**: Full experimental disclosure and search-mode fairness disclosures.
+
+### 4. Natural-Language Comparison Assistant (New Extension)
+Query the assistant either through the dashboard or directly via CLI:
+```bash
+# Interactive conversation loop:
+python main.py --assistant
+
+# One-shot query mode:
+python main.py --assistant "Which has the lowest latency?"
+python main.py --assistant "Compare Qdrant and Chroma."
+python main.py --assistant "Which is suitable for a RAG application?"
+python main.py --assistant "Which supports PostgreSQL?"
+python main.py --assistant "Which is better overall?"
+```
+
+### 5. Modular Stage Execution
 ```bash
 # Prepare dataset (BEIR/SciFact 1,000 docs / 50 queries)
 python main.py --prepare-data
@@ -241,9 +281,12 @@ python main.py --run-benchmark
 
 # Generate the single-worksheet Excel report
 python main.py --generate-report
+
+# Export unified structured data/vdb_comparison.json
+python main.py --export-data
 ```
 
-### 4. Excel Deliverable Verification
+### 6. Excel Deliverable Verification
 Verify that the generated workbook contains exactly one worksheet and opens cleanly:
 ```bash
 python -c "import openpyxl; wb = openpyxl.load_workbook('outputs/excel/VDB_Comprehensive_Analysis.xlsx'); print('Sheets:', wb.sheetnames); print('Rows:', wb.active.max_row, 'Cols:', wb.active.max_column)"

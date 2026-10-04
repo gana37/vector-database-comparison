@@ -1,0 +1,3381 @@
+{
+  "metadata": {
+    "dataset": "BEIR/SciFact",
+    "dataset_source": "TU Darmstadt (Thakur et al., 2021)",
+    "documents_count": 1000,
+    "queries_count": 50,
+    "relevance_judgments_count": 54,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_dimensions": 384,
+    "normalization": "L2 Unit Normalization (||v||_2 = 1.0)",
+    "similarity_metric": "Cosine Similarity / Inner Product",
+    "top_k": 10,
+    "warmup_queries": 10,
+    "benchmark_repetitions": 3,
+    "total_queries_measured": 150,
+    "timing_mechanism": "time.perf_counter_ns (Monotonic High-Precision)",
+    "faiss_scope_notice": "FAISS is an in-process vector similarity-search C++ library and algorithmic compute baseline, not a full client-server vector database. It lacks a network daemon, durability (WAL), CRUD mutations, metadata payload filtering, and distributed clustering.",
+    "workload_scope_notice": "The empirical benchmark results apply strictly to this controlled workload (1,000 documents, 50 queries, 384 dimensions, local execution) and should not be treated as universal performance claims."
+  },
+  "all_databases": [
+    "Qdrant",
+    "Chroma",
+    "FAISS",
+    "Milvus",
+    "Weaviate",
+    "pgvector",
+    "Elasticsearch",
+    "Pinecone"
+  ],
+  "benchmarked_systems": [
+    "qdrant",
+    "chroma",
+    "faiss"
+  ],
+  "unbenchmarked_systems": [
+    "milvus",
+    "weaviate",
+    "pgvector",
+    "elasticsearch",
+    "pinecone"
+  ],
+  "measured_results": {
+    "qdrant": {
+      "name": "Qdrant",
+      "category": "Native Vector Database",
+      "deployment_mode": "Native Vector DB (Embedded)",
+      "version": "1.19.1",
+      "search_type": "Approximate Nearest Neighbor (HNSW, M=16, ef_construct=100, Embedded In-Memory)",
+      "benchmarked": true,
+      "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+      "ingestion": {
+        "vectors_per_sec": 1121.7,
+        "total_insertion_time_sec": 0.892,
+        "index_build_time_sec": 0.0
+      },
+      "latency_ms": {
+        "p50": 4.426,
+        "p90": 6.031,
+        "p95": 6.698,
+        "p99": 7.418,
+        "mean": 4.773,
+        "min": 3.739,
+        "max": 7.596,
+        "std": 0.911
+      },
+      "throughput_qps": 208.9,
+      "retrieval_quality": {
+        "precision_at_10": 0.094,
+        "recall_at_10": 0.87,
+        "hit_rate_at_10": 0.88,
+        "mrr": 0.7295,
+        "ndcg_at_10": 0.7602
+      },
+      "resources": {
+        "peak_rss_mb": 135.68,
+        "delta_rss_mb": 12.07,
+        "storage_mb": null
+      }
+    },
+    "chroma": {
+      "name": "Chroma",
+      "category": "Embedded / Local-First Vector Store",
+      "deployment_mode": "Embedded / Local-First Vector Store",
+      "version": "1.5.9",
+      "search_type": "Approximate Nearest Neighbor (HNSW via hnswlib, Persistent Disk Storage)",
+      "benchmarked": true,
+      "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+      "ingestion": {
+        "vectors_per_sec": 360.7,
+        "total_insertion_time_sec": 2.772,
+        "index_build_time_sec": 0.0
+      },
+      "latency_ms": {
+        "p50": 3.24,
+        "p90": 4.708,
+        "p95": 5.013,
+        "p99": 5.595,
+        "mean": 3.524,
+        "min": 2.658,
+        "max": 6.545,
+        "std": 0.746
+      },
+      "throughput_qps": 282.7,
+      "retrieval_quality": {
+        "precision_at_10": 0.094,
+        "recall_at_10": 0.87,
+        "hit_rate_at_10": 0.88,
+        "mrr": 0.7295,
+        "ndcg_at_10": 0.7602
+      },
+      "resources": {
+        "peak_rss_mb": 166.07,
+        "delta_rss_mb": 27.45,
+        "storage_mb": 5.84
+      }
+    },
+    "faiss": {
+      "name": "FAISS",
+      "category": "Vector Similarity Search Library",
+      "deployment_mode": "In-Process Algorithmic Library",
+      "version": "1.13.2",
+      "search_type": "Exact Nearest Neighbor Compute Baseline (IndexFlatIP, Pure In-Memory)",
+      "benchmarked": true,
+      "status_reason": "Successfully Benchmarked (Genuine Measured Run)",
+      "ingestion": {
+        "vectors_per_sec": 422493.6,
+        "total_insertion_time_sec": 0.002,
+        "index_build_time_sec": 0.0
+      },
+      "latency_ms": {
+        "p50": 0.228,
+        "p90": 0.352,
+        "p95": 0.473,
+        "p99": 1.727,
+        "mean": 0.28,
+        "min": 0.104,
+        "max": 2.577,
+        "std": 0.269
+      },
+      "throughput_qps": 3452.2,
+      "retrieval_quality": {
+        "precision_at_10": 0.094,
+        "recall_at_10": 0.87,
+        "hit_rate_at_10": 0.88,
+        "mrr": 0.7295,
+        "ndcg_at_10": 0.7602
+      },
+      "resources": {
+        "peak_rss_mb": 172.61,
+        "delta_rss_mb": 1.83,
+        "storage_mb": 1.46
+      }
+    }
+  },
+  "unbenchmarked_details": {
+    "milvus": {
+      "name": "Milvus",
+      "category": "Distributed Cloud-Native Vector Database",
+      "deployment_mode": "Distributed Vector Database",
+      "benchmarked": false,
+      "status_reason": "Not Benchmarked: pymilvus package not installed.",
+      "search_type": "Approximate Nearest Neighbor (HNSW, Distributed Cluster)",
+      "reason_summary": "pymilvus client uninstalled (requires running Docker container/cluster)"
+    },
+    "weaviate": {
+      "name": "Weaviate",
+      "category": "Native Vector Search Engine",
+      "deployment_mode": "Native Vector Search Engine",
+      "benchmarked": false,
+      "status_reason": "Not Benchmarked: weaviate-client package not installed.",
+      "search_type": "Approximate Nearest Neighbor (Dynamic HNSW, LSM-tree)",
+      "reason_summary": "weaviate-client uninstalled (requires running Weaviate daemon)"
+    },
+    "pgvector": {
+      "name": "pgvector",
+      "category": "Relational Extension (PostgreSQL)",
+      "deployment_mode": "Relational Database Extension (PostgreSQL)",
+      "benchmarked": false,
+      "status_reason": "Not Benchmarked: psycopg2 package not installed.",
+      "search_type": "Approximate Nearest Neighbor (HNSW / IVFFlat, PostgreSQL Extension)",
+      "reason_summary": "psycopg2 uninstalled (requires PostgreSQL server with pgvector extension)"
+    },
+    "elasticsearch": {
+      "name": "Elasticsearch",
+      "category": "Search Engine with Vector Extension",
+      "deployment_mode": "Enterprise Search Engine (Lucene)",
+      "benchmarked": false,
+      "status_reason": "Not Benchmarked: elasticsearch python client not installed.",
+      "search_type": "Approximate Nearest Neighbor (Lucene HNSW, Distributed Cluster)",
+      "reason_summary": "elasticsearch client uninstalled (requires active Elasticsearch cluster daemon)"
+    },
+    "pinecone": {
+      "name": "Pinecone",
+      "category": "Managed Cloud Vector SaaS",
+      "deployment_mode": "Managed Cloud SaaS",
+      "benchmarked": false,
+      "status_reason": "Not Benchmarked: API Credentials Required: PINECONE_API_KEY environment variable is not configured. Cloud SaaS live benchmark skipped to avoid unauthenticated access and prevent cloud billing charges.",
+      "search_type": "Approximate Nearest Neighbor (Proprietary Graph, Cloud Serverless SaaS)",
+      "reason_summary": "PINECONE_API_KEY unconfigured (Cloud SaaS skipped to avoid unauthorized access/billing)"
+    }
+  },
+  "database_profiles": {
+    "Qdrant": {
+      "name": "Qdrant",
+      "key": "qdrant",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Qdrant Solutions GmbH",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Native Vector Database",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Rust",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (Apache 2.0)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2021",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://qdrant.tech/documentation/",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Embedded (In-Process) or Client-Server Daemon",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "RocksDB / mmap-backed segmented vector storage",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Partially coupled (nodes hold local segments)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (Segment WAL with periodic fsync)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "HNSW (Hierarchical Navigable Small World)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (exact=True parameter in search request)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, Dot Product, Euclidean (L2), Manhattan (L1)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Scalar Quantization (SQ), Product Quantization (PQ), Binary (BQ)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (mmap vector payloads + in-RAM HNSW graphs)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "65,535 dimensions",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Single-Stage (Custom payload graph traversal during HNSW)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (Explicit schema-based inverted payload indexes)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (Built-in full-text token matching on string payloads)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Reciprocal Rank Fusion (RRF) & Score Boosting",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Native automatic hash-ring sharding",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (Raft consensus replica management)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "Embedded Raft (Rust)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "gRPC (HTTP/2) & REST (HTTP/JSON)",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, TypeScript/JS, Rust, Go, Java, C#",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "Yes (:memory: or local path in qdrant-client)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official Docker container & Helm chart",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "API Key, mTLS, Role-Based Access Control",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Qdrant Cloud (1GB Forever Free cluster)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Low-to-Medium (Single Rust binary, minimal RAM overhead)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "BENCHMARKED (Local Embedded Mode)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Client-Server / Embedded Vector Database with storage & filtering",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "1,121.7 vec/s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "0.892 s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "0.000 s (dynamic)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "4.43 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "6.70 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "7.42 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "4.77 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "208.9 QPS",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "0.8700",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "0.0940",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "0.8800",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "0.7295",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "0.7602",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Rust-powered speed, single-stage payload graph traversal, flexible embedded and cluster modes.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "High memory consumption for uncompressed HNSW graphs; smaller ecosystem than Elasticsearch.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "High-throughput RAG systems requiring rich metadata payload filtering and sub-10ms response times.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://qdrant.tech/documentation/concepts/",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/qdrant/qdrant",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "Chroma": {
+      "name": "Chroma",
+      "key": "chroma",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Chroma, Inc.",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Embedded / Local-First Vector Store",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Python & Rust",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (Apache 2.0)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2023",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://docs.trychroma.com/",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Embedded (In-Process) or Client-Server Daemon",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "SQLite (Metadata) + Rust/hnswlib (Vectors)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Coupled in embedded; decoupled in distributed Chroma",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (SQLite WAL mode)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "HNSW (via hnswlib)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (Flat brute-force space)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, L2, Inner Product (IP)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Product Quantization in development; standard FP32/FP16",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (SQLite / DuckDB disk persistence)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "Arbitrary (constrained by RAM/hnswlib)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Post-Filtering / Pre-Filtering hybrid (via SQLite)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (SQLite indexes on metadata keys)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Basic string contains filtering (no native BM25 engine)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Requires external application re-ranking",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Single-node embedded (Distributed Chroma in enterprise)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "No in embedded mode (Single writer/reader)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "None (SQLite file lock in embedded)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "In-Process Python API / REST",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, TypeScript/JS",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Default Store in tutorials",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "Yes (chromadb.PersistentClient)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official Docker container & Helm chart",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "Token / Basic Auth (Server mode)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Chroma Cloud (Waitlist / Early Access)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Very Low (Runs embedded in application container)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "BENCHMARKED (Local Persistent Mode)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Embedded / Local-First Vector Store with SQLite & metadata filtering",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "360.7 vec/s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "2.772 s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "0.000 s (dynamic)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "3.24 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "5.01 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "5.59 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "3.52 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "282.7 QPS",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "0.8700",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "0.0940",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "0.8800",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "0.7295",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "0.7602",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Zero-friction Python developer experience; ideal for rapid prototyping and local LLM agents.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Single-writer SQLite bottleneck in embedded mode; lacks advanced multi-tenant cluster features.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Local desktop AI apps, Jupyter notebook experiments, rapid PoCs, and embedded RAG prototypes.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://docs.trychroma.com/guides",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/chroma-core/chroma",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "FAISS": {
+      "name": "FAISS",
+      "key": "faiss",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Meta AI (Fundamental AI Research)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Vector Similarity Search Library (In-Process Algorithmic Baseline; not a full client-server database)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "C++ (with Python / CUDA bindings)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (MIT License)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2017",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://github.com/facebookresearch/faiss",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Embedded Library (Pure In-Process memory)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "In-Memory C++ arrays (optional On-Disk IndexIVF via mmap)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Coupled (Application memory manages buffers)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "No (User application responsible for persistence)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "Flat, HNSW, IVF_FLAT, IVF_PQ, SCANN, LSH",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (IndexFlatIP, IndexFlatL2 - Industry Benchmark)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Inner Product (IP), Euclidean (L2), L1, Linf, Canberra",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Exhaustive (PQ, SQ, Residual Quantization, Polysemous)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (OnDiskInvertedLists for IVF indexes)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "Arbitrary (constrained by memory/CPU)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Post-Filtering (via IDSelector or custom application logic)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "No (Payloads must be managed externally by host app)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "No (Vector similarity search library only)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Requires external application re-ranking",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Manual application-level sharding (ShardedIndex)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "No (Application must duplicate in-memory instances)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "None (No networking or clustering)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "In-Process C++ ABI / Python ctypes / SWIG",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, C++",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Community Store",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "Yes (Native C++ library loaded into memory)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Packaged into custom container images",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "N/A (Host process security boundary)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "None (Self-hosted library only)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Lowest (Zero infrastructure daemon overhead)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "BENCHMARKED (In-Process Algorithmic Baseline)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "In-process vector similarity search library / algorithmic baseline (not a full database)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "422,493.6 vec/s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "0.002 s",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "0.000 s (flat)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "0.23 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "0.47 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "1.73 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "0.28 ms",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "3,452.2 QPS",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "0.8700",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "0.0940",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "0.8800",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "0.7295",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "0.7602",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Gold standard algorithmic search performance; ultra-low in-memory latency with zero daemon overhead.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Not a database: in-process similarity search library only; lacks network server daemon, client-server API protocols, storage durability (WAL), CRUD mutations, security, multi-tenancy, and metadata payload filtering.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Algorithmic research, offline batch vector clustering, GPU vector search, and custom inference backends.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://github.com/facebookresearch/faiss/wiki",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/facebookresearch/faiss",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "Milvus": {
+      "name": "Milvus",
+      "key": "milvus",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Zilliz / LF AI & Data Foundation",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Distributed Cloud-Native Vector Database",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Go & C++",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (Apache 2.0)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2019",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://milvus.io/docs",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Distributed Microservices (Coordinator/Worker/Storage)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "MinIO/S3 (Object storage) + Etcd + Pulsar/Kafka log",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Fully Decoupled (Stateless QueryNodes + Object Store)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (Pulsar/Kafka message stream acts as WAL)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "HNSW, IVF_FLAT, IVF_PQ, IVF_SQ8, SCANN, DiskANN, GPU_IVF",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (FLAT index type)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, L2, IP, Hamming, Jaccard",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Exhaustive (SQ8, PQ, RaBit, Binary Quantization)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (DiskANN integration via Vearch/Zilliz core)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "32,768 dimensions",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Pre-Filtering / Iterative Filtering during graph traversal",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (Inverted indexes on scalar fields)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (Sparse vector / BM25 built-in analyzer v2.4+)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Reciprocal Rank Fusion (RRF) & Relative Score Fusion",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Native distributed sharding across QueryNodes",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (Stateless QueryNodes scale horizontally)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "Etcd + Apache Pulsar / Kafka",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "gRPC (HTTP/2) & REST",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, Go, Java, Node.js, C#, REST",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "Yes via milvus-lite (Linux/macOS primarily)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official Docker Compose & Kubernetes Operator",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "User/Role RBAC, TLS, LDAP/OAuth integration",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Zilliz Cloud ($100 free credit / Serverless tier)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Medium-to-High (Requires Etcd, MinIO, Pulsar dependencies)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "NOT BENCHMARKED (pymilvus uninstalled)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Distributed Cloud-Native Vector Database with storage & filtering",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "Not Benchmarked (pymilvus uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Not Benchmarked (see execution status)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Massive horizontal scalability to billions of vectors with decoupled cloud-native storage nodes.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "High deployment complexity (requires Etcd, MinIO, Pulsar microservices); steep operational overhead.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Large-scale enterprise vector platforms exceeding 100M+ vectors with distributed data pipelines.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://milvus.io/docs/architecture_overview.md",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/milvus-io/milvus",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "Weaviate": {
+      "name": "Weaviate",
+      "key": "weaviate",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Weaviate B.V.",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Native Vector Search Engine",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Go",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (BSD-3-Clause)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2019",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://weaviate.io/developers/weaviate",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Client-Server Daemon or Kubernetes Cluster",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "Custom LSM-Tree vector storage + Raft coordinator",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Partially decoupled (modular offload to cloud storage)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (LSM-tree WAL for all class mutations)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "Dynamic HNSW, Flat index",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (Flat vector index configuration)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, Dot Product, L2, Manhattan, Hamming",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Product Quantization (PQ), Binary Quantization (BQ), SQ",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (LSM-tree disk storage + mmap vector cache)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "65,535 dimensions",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Single-Stage (Inverted index combined with HNSW traversal)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (Automatic inverted property indexing)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (Native BM25 inverted index engine)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Relative Score Fusion & Reciprocal Rank Fusion (RRF)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Native multi-shard class partitioning",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (Raft-coordinated multi-replica clusters)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "Raft consensus (Go)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "gRPC (v4 high-speed) & GraphQL & REST",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python (v4), TypeScript/JS, Go, Java",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "Experimental Weaviate-Embedded",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official Docker container & Helm chart",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "API Key, OIDC / OAuth2, RBAC (v4)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Weaviate Cloud (14-day free sandbox sandbox)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Medium (Single Go binary, high RAM for HNSW)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "NOT BENCHMARKED (weaviate-client uninstalled)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Native Vector Search Engine with inverted index & BM25 hybrid",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "Not Benchmarked (weaviate-client uninstalled)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Not Benchmarked (see execution status)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "First-class GraphQL/gRPC developer APIs with native hybrid BM25 search and modular ML vectorizers.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Heavy memory footprint for HNSW graphs; complex configuration for enterprise multi-tenancy.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Complex multimodal search and hybrid RAG pipelines leveraging native BM25 + dense retrieval.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://weaviate.io/developers/weaviate/architecture",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/weaviate/weaviate",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "pgvector": {
+      "name": "pgvector",
+      "key": "pgvector",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Andrew Kane / PostgreSQL Community",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Relational Database Extension (PostgreSQL)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "C",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Open Source (PostgreSQL License)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2021",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://github.com/pgvector/pgvector",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "PostgreSQL Daemon / Cluster Extension",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "PostgreSQL Heap Storage + Buffer Cache (Shared Buffers)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Coupled to PostgreSQL compute/storage architecture",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (PostgreSQL full ACID WAL guarantees)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "HNSW (v0.5+), IVFFlat",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (Direct SQL ORDER BY <=> without index)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine (<=>), L2 (<->), Inner Product (<#>), L1 (<+>)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Half-precision FP16 (v0.7+), Binary Vector (v0.7+)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (PostgreSQL standard disk pages & buffer pool)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "2,000 dimensions (up to 16,000 in halfvec)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Integrated SQL Query Planner (Pre-filter / Index Scan)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (B-tree, GIN on JSONB, BRIN on scalar columns)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (PostgreSQL native tsvector / tsquery Full-Text)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "SQL ranking fusion (RRF or weighted linear combination)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "PostgreSQL Citus / Foreign Data Wrappers / Partitioning",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (PostgreSQL streaming replication & read pools)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "PostgreSQL Patroni / Pacemaker for HA",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "PostgreSQL Wire Protocol (libpq / SQL)",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Any SQL driver (psycopg, asyncpg, JDBC, SQLAlchemy)",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "No (Requires running PostgreSQL daemon)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official pgvector Docker image & PostgreSQL Helm",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "PostgreSQL Roles, pg_hba.conf, SSL/mTLS, Row-Level Security",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "AWS RDS/Aurora, Supabase (Free tier), Neon (Free tier)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Lowest incremental cost if PostgreSQL is already deployed",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "NOT BENCHMARKED (psycopg2 uninstalled / no daemon)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Relational Database Extension with PostgreSQL ACID transactions",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Not Benchmarked (see execution status)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Full relational ACID compliance; joins vector similarity directly with existing transactional tables.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Lower QPS and higher latency under heavy vector search compared to specialized Rust/C++ native engines.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Existing PostgreSQL applications needing semantic search without introducing a second database stack.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://github.com/pgvector/pgvector#indexing",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/pgvector/pgvector",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "Elasticsearch": {
+      "name": "Elasticsearch",
+      "key": "elasticsearch",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Elastic N.V.",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Enterprise Search Engine with Vector Capability",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Java (Apache Lucene)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Source-Available (ELv2 / SSPL / Apache 2.0)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2010 (Dense Vector added in 7.3, 2019)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Distributed Multi-Node Cluster",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "Apache Lucene immutable segments + translog",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Decoupled via Frozen/Searchable Snapshots",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (Lucene translog with fsync)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "HNSW (Lucene dense_vector), Flat brute-force",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "Yes (exact script_score kNN search)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, Dot Product, L2, Max Inner Product",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Automatic INT8 Scalar Quantization (Lucene HNSW)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (Lucene mmapfs for segment file caching)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "4,096 dimensions (dense_vector)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Lucene filtered query (Bitset masking on HNSW nodes)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (Industry standard Apache Lucene inverted indexes)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (Gold standard BM25 text relevance search)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Reciprocal Rank Fusion (RRF) & Linear Combination",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Native index primary and replica sharding",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (Lucene replica shards with primary election)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "Raft-based Zen Discovery / Master nodes",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "REST (HTTP/JSON) & Java Transport",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, Java, JS/TS, Go, .NET, PHP, Ruby",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "No (Requires JVM Elasticsearch process)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "Official Docker container & ECK Operator",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "Elasticsearch Security (RBAC, SAML, OIDC, TLS, PKI)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Elastic Cloud (14-day free trial; paid thereafter)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "High (JVM heap memory footprint, complex ops)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "NOT BENCHMARKED (client uninstalled / no daemon)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Enterprise Search Engine with Apache Lucene dense_vector",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Not Benchmarked (see execution status)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Unrivaled enterprise text search, logging, and inverted-index BM25 combined with Lucene HNSW vectors.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Substantial JVM memory heap requirements; slower vector ingestion throughput than native vector DBs.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Enterprise search platforms where dense vector similarity is added alongside massive text catalogs.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://www.elastic.co/guide/en/elasticsearch/reference/current/dense-vector.html",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/elastic/elasticsearch",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    },
+    "Pinecone": {
+      "name": "Pinecone",
+      "key": "pinecone",
+      "attributes": {
+        "Primary Developer / Maintainer": {
+          "value": "Pinecone Systems, Inc.",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core System Category": {
+          "value": "Managed Cloud Vector SaaS",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Core Implementation Language": {
+          "value": "Proprietary (C++ / Rust / Go Core)",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Open Source / Licensing Model": {
+          "value": "Proprietary Commercial SaaS",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Initial Release Year": {
+          "value": "2021",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Official Website / Documentation": {
+          "value": "https://docs.pinecone.io/",
+          "section": "A. General Information & Metadata",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Deployment Topology": {
+          "value": "Managed Cloud Multi-Tenant / Serverless Pods",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Underlying Storage Architecture": {
+          "value": "Proprietary cloud block storage + SSD blob cache",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Compute / Storage Decoupling": {
+          "value": "Fully Decoupled (Serverless dynamic query routing)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Write-Ahead Logging (WAL) & Durability": {
+          "value": "Yes (Cloud multi-AZ replicated transaction log)",
+          "section": "B. Architecture & Storage Model",
+          "type": "DOCUMENTATION"
+        },
+        "Primary ANN Index Types": {
+          "value": "Proprietary Hierarchical Graph (Serverless ANN)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Exact Nearest Neighbor (kNN Flat) Support": {
+          "value": "No (All serverless queries execute via ANN index)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Supported Distance Metrics": {
+          "value": "Cosine, Dot Product, Euclidean",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Vector Quantization Support (PQ / SQ / BQ)": {
+          "value": "Proprietary Adaptive Quantization in Serverless",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Disk-Backed Vector Indexing (DiskANN / mmap)": {
+          "value": "Yes (Serverless cold tiered SSD storage)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Maximum Vector Dimensionality": {
+          "value": "40,000 dimensions (Serverless)",
+          "section": "C. Vector Search & Indexing Capabilities",
+          "type": "DOCUMENTATION"
+        },
+        "Metadata Filtering Strategy": {
+          "value": "Single-Stage metadata filtering during graph traversal",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Payload / Metadata Indexing": {
+          "value": "Yes (Automatic metadata indexing on all scalar fields)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Native Full-Text / BM25 Keyword Search": {
+          "value": "Yes (Sparse-dense hybrid index support)",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Sparse-Dense Hybrid Fusion Algorithm": {
+          "value": "Alpha-weighted Convex Linear Combination",
+          "section": "D. Filtering & Hybrid Retrieval",
+          "type": "DOCUMENTATION"
+        },
+        "Horizontal Sharding Support": {
+          "value": "Automated serverless virtualized sharding",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Read Replicas & High Availability": {
+          "value": "Yes (Managed multi-AZ redundancy)",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Consensus / Cluster Coordination": {
+          "value": "Proprietary Cloud Orchestrator",
+          "section": "E. Scalability & Distributed Architecture",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Client Communication Protocol": {
+          "value": "gRPC (HTTP/2) & REST HTTPS",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Official Client SDK Support": {
+          "value": "Python, TypeScript/JS, Java, Go, C#, Spark",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "LangChain & LlamaIndex RAG Integration": {
+          "value": "First-Class Official Partner Package",
+          "section": "F. Developer Experience & Ecosystem",
+          "type": "DOCUMENTATION"
+        },
+        "Zero-Daemon Embedded In-Process Mode": {
+          "value": "No (Cloud API service only)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Docker & Kubernetes Deployment": {
+          "value": "N/A (Managed Cloud SaaS only)",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Authentication & RBAC Security": {
+          "value": "API Key authentication, Project-level RBAC",
+          "section": "G. Deployment, Security & Operations",
+          "type": "DOCUMENTATION"
+        },
+        "Cloud SaaS Availability & Free Tier": {
+          "value": "Pinecone Serverless (Free Starter Tier with $0 spend limit)",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Self-Hosted Infrastructure TCO": {
+          "value": "Zero self-hosted ops; Pay-as-you-go Cloud API pricing",
+          "section": "H. Commercial & Cost Considerations",
+          "type": "DOCUMENTATION"
+        },
+        "Benchmark Execution Status": {
+          "value": "NOT BENCHMARKED (API Credentials Not Configured)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Corpus Documents": {
+          "value": "1,000 Documents (BEIR/SciFact subset)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Query Set & Relevance Judgments": {
+          "value": "50 Queries | 54 Ground-Truth Relevance Judgments",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Embedding Model & Dimensions": {
+          "value": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Vector Normalization & Top-K": {
+          "value": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Workload & Warm-Up Cycles": {
+          "value": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "Evaluated Performance & IR Metrics": {
+          "value": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "MEASURED"
+        },
+        "FAISS System Architectural Scope": {
+          "value": "Full Managed Cloud SaaS Vector Database with serverless indexing",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Controlled Workload Scope & Notice": {
+          "value": "Results apply only to this controlled workload; not universal performance claims",
+          "section": "I. Benchmark Experimental Conditions",
+          "type": "DOCUMENTATION"
+        },
+        "Ingestion Throughput (Vectors / Second)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Total Ingestion Wall-Clock Duration": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Dedicated Index Construction Duration": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "J. Measured Ingestion Performance",
+          "type": "MEASURED"
+        },
+        "Median Query Latency (P50)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "95th Percentile Latency (P95 Tail)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "99th Percentile Latency (P99 Tail)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Mean Query Latency": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Sequential Query Throughput (QPS)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "K. Measured Query Latency & Throughput",
+          "type": "MEASURED"
+        },
+        "Recall@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Precision@10 (SciFact Ground Truth)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Hit Rate@10 (At least 1 relevant hit)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "MRR (Mean Reciprocal Rank)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "NDCG@10 (Normalized Discounted Gain)": {
+          "value": "Not Benchmarked (API Key Not Configured)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Empirical Retrieval Quality Summary": {
+          "value": "Not Benchmarked (see execution status)",
+          "section": "L. Measured Information Retrieval (IR) Quality",
+          "type": "MEASURED"
+        },
+        "Core Technical Advantage / Strength": {
+          "value": "Zero infrastructure administration; fully managed cloud autoscaling with pay-as-you-go pricing.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Primary Architectural Limitation": {
+          "value": "Proprietary cloud lock-in; ongoing SaaS subscription costs; network WAN round-trip latency.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Optimal Production Workload & Use Case": {
+          "value": "Fast-moving AI startups wanting serverless vector infrastructure without dedicated DevOps engineers.",
+          "section": "M. Architectural Synthesis & Trade-offs",
+          "type": "DOCUMENTATION"
+        },
+        "Official Technical Documentation Link": {
+          "value": "https://docs.pinecone.io/guides/get-started/overview",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        },
+        "Official Source Code Repository": {
+          "value": "https://github.com/pinecone-io/pinecone-python-client",
+          "section": "N. Technical Documentation References",
+          "type": "DOCUMENTATION"
+        }
+      }
+    }
+  },
+  "technical_matrix_rows": [
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Primary Developer / Maintainer",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Qdrant Solutions GmbH",
+      "Chroma": "Chroma, Inc.",
+      "FAISS": "Meta AI (Fundamental AI Research)",
+      "Milvus": "Zilliz / LF AI & Data Foundation",
+      "Weaviate": "Weaviate B.V.",
+      "pgvector": "Andrew Kane / PostgreSQL Community",
+      "Elasticsearch": "Elastic N.V.",
+      "Pinecone": "Pinecone Systems, Inc."
+    },
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Core System Category",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Native Vector Database",
+      "Chroma": "Embedded / Local-First Vector Store",
+      "FAISS": "Vector Similarity Search Library (In-Process Algorithmic Baseline; not a full client-server database)",
+      "Milvus": "Distributed Cloud-Native Vector Database",
+      "Weaviate": "Native Vector Search Engine",
+      "pgvector": "Relational Database Extension (PostgreSQL)",
+      "Elasticsearch": "Enterprise Search Engine with Vector Capability",
+      "Pinecone": "Managed Cloud Vector SaaS"
+    },
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Core Implementation Language",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Rust",
+      "Chroma": "Python & Rust",
+      "FAISS": "C++ (with Python / CUDA bindings)",
+      "Milvus": "Go & C++",
+      "Weaviate": "Go",
+      "pgvector": "C",
+      "Elasticsearch": "Java (Apache Lucene)",
+      "Pinecone": "Proprietary (C++ / Rust / Go Core)"
+    },
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Open Source / Licensing Model",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Open Source (Apache 2.0)",
+      "Chroma": "Open Source (Apache 2.0)",
+      "FAISS": "Open Source (MIT License)",
+      "Milvus": "Open Source (Apache 2.0)",
+      "Weaviate": "Open Source (BSD-3-Clause)",
+      "pgvector": "Open Source (PostgreSQL License)",
+      "Elasticsearch": "Source-Available (ELv2 / SSPL / Apache 2.0)",
+      "Pinecone": "Proprietary Commercial SaaS"
+    },
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Initial Release Year",
+      "type": "DOCUMENTATION",
+      "Qdrant": "2021",
+      "Chroma": "2023",
+      "FAISS": "2017",
+      "Milvus": "2019",
+      "Weaviate": "2019",
+      "pgvector": "2021",
+      "Elasticsearch": "2010 (Dense Vector added in 7.3, 2019)",
+      "Pinecone": "2021"
+    },
+    {
+      "section": "A. General Information & Metadata",
+      "parameter": "Official Website / Documentation",
+      "type": "DOCUMENTATION",
+      "Qdrant": "https://qdrant.tech/documentation/",
+      "Chroma": "https://docs.trychroma.com/",
+      "FAISS": "https://github.com/facebookresearch/faiss",
+      "Milvus": "https://milvus.io/docs",
+      "Weaviate": "https://weaviate.io/developers/weaviate",
+      "pgvector": "https://github.com/pgvector/pgvector",
+      "Elasticsearch": "https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html",
+      "Pinecone": "https://docs.pinecone.io/"
+    },
+    {
+      "section": "B. Architecture & Storage Model",
+      "parameter": "Primary Deployment Topology",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Embedded (In-Process) or Client-Server Daemon",
+      "Chroma": "Embedded (In-Process) or Client-Server Daemon",
+      "FAISS": "Embedded Library (Pure In-Process memory)",
+      "Milvus": "Distributed Microservices (Coordinator/Worker/Storage)",
+      "Weaviate": "Client-Server Daemon or Kubernetes Cluster",
+      "pgvector": "PostgreSQL Daemon / Cluster Extension",
+      "Elasticsearch": "Distributed Multi-Node Cluster",
+      "Pinecone": "Managed Cloud Multi-Tenant / Serverless Pods"
+    },
+    {
+      "section": "B. Architecture & Storage Model",
+      "parameter": "Underlying Storage Architecture",
+      "type": "DOCUMENTATION",
+      "Qdrant": "RocksDB / mmap-backed segmented vector storage",
+      "Chroma": "SQLite (Metadata) + Rust/hnswlib (Vectors)",
+      "FAISS": "In-Memory C++ arrays (optional On-Disk IndexIVF via mmap)",
+      "Milvus": "MinIO/S3 (Object storage) + Etcd + Pulsar/Kafka log",
+      "Weaviate": "Custom LSM-Tree vector storage + Raft coordinator",
+      "pgvector": "PostgreSQL Heap Storage + Buffer Cache (Shared Buffers)",
+      "Elasticsearch": "Apache Lucene immutable segments + translog",
+      "Pinecone": "Proprietary cloud block storage + SSD blob cache"
+    },
+    {
+      "section": "B. Architecture & Storage Model",
+      "parameter": "Compute / Storage Decoupling",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Partially coupled (nodes hold local segments)",
+      "Chroma": "Coupled in embedded; decoupled in distributed Chroma",
+      "FAISS": "Coupled (Application memory manages buffers)",
+      "Milvus": "Fully Decoupled (Stateless QueryNodes + Object Store)",
+      "Weaviate": "Partially decoupled (modular offload to cloud storage)",
+      "pgvector": "Coupled to PostgreSQL compute/storage architecture",
+      "Elasticsearch": "Decoupled via Frozen/Searchable Snapshots",
+      "Pinecone": "Fully Decoupled (Serverless dynamic query routing)"
+    },
+    {
+      "section": "B. Architecture & Storage Model",
+      "parameter": "Write-Ahead Logging (WAL) & Durability",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (Segment WAL with periodic fsync)",
+      "Chroma": "Yes (SQLite WAL mode)",
+      "FAISS": "No (User application responsible for persistence)",
+      "Milvus": "Yes (Pulsar/Kafka message stream acts as WAL)",
+      "Weaviate": "Yes (LSM-tree WAL for all class mutations)",
+      "pgvector": "Yes (PostgreSQL full ACID WAL guarantees)",
+      "Elasticsearch": "Yes (Lucene translog with fsync)",
+      "Pinecone": "Yes (Cloud multi-AZ replicated transaction log)"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Primary ANN Index Types",
+      "type": "DOCUMENTATION",
+      "Qdrant": "HNSW (Hierarchical Navigable Small World)",
+      "Chroma": "HNSW (via hnswlib)",
+      "FAISS": "Flat, HNSW, IVF_FLAT, IVF_PQ, SCANN, LSH",
+      "Milvus": "HNSW, IVF_FLAT, IVF_PQ, IVF_SQ8, SCANN, DiskANN, GPU_IVF",
+      "Weaviate": "Dynamic HNSW, Flat index",
+      "pgvector": "HNSW (v0.5+), IVFFlat",
+      "Elasticsearch": "HNSW (Lucene dense_vector), Flat brute-force",
+      "Pinecone": "Proprietary Hierarchical Graph (Serverless ANN)"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Exact Nearest Neighbor (kNN Flat) Support",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (exact=True parameter in search request)",
+      "Chroma": "Yes (Flat brute-force space)",
+      "FAISS": "Yes (IndexFlatIP, IndexFlatL2 - Industry Benchmark)",
+      "Milvus": "Yes (FLAT index type)",
+      "Weaviate": "Yes (Flat vector index configuration)",
+      "pgvector": "Yes (Direct SQL ORDER BY <=> without index)",
+      "Elasticsearch": "Yes (exact script_score kNN search)",
+      "Pinecone": "No (All serverless queries execute via ANN index)"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Supported Distance Metrics",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Cosine, Dot Product, Euclidean (L2), Manhattan (L1)",
+      "Chroma": "Cosine, L2, Inner Product (IP)",
+      "FAISS": "Inner Product (IP), Euclidean (L2), L1, Linf, Canberra",
+      "Milvus": "Cosine, L2, IP, Hamming, Jaccard",
+      "Weaviate": "Cosine, Dot Product, L2, Manhattan, Hamming",
+      "pgvector": "Cosine (<=>), L2 (<->), Inner Product (<#>), L1 (<+>)",
+      "Elasticsearch": "Cosine, Dot Product, L2, Max Inner Product",
+      "Pinecone": "Cosine, Dot Product, Euclidean"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Vector Quantization Support (PQ / SQ / BQ)",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Scalar Quantization (SQ), Product Quantization (PQ), Binary (BQ)",
+      "Chroma": "Product Quantization in development; standard FP32/FP16",
+      "FAISS": "Exhaustive (PQ, SQ, Residual Quantization, Polysemous)",
+      "Milvus": "Exhaustive (SQ8, PQ, RaBit, Binary Quantization)",
+      "Weaviate": "Product Quantization (PQ), Binary Quantization (BQ), SQ",
+      "pgvector": "Half-precision FP16 (v0.7+), Binary Vector (v0.7+)",
+      "Elasticsearch": "Automatic INT8 Scalar Quantization (Lucene HNSW)",
+      "Pinecone": "Proprietary Adaptive Quantization in Serverless"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Disk-Backed Vector Indexing (DiskANN / mmap)",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (mmap vector payloads + in-RAM HNSW graphs)",
+      "Chroma": "Yes (SQLite / DuckDB disk persistence)",
+      "FAISS": "Yes (OnDiskInvertedLists for IVF indexes)",
+      "Milvus": "Yes (DiskANN integration via Vearch/Zilliz core)",
+      "Weaviate": "Yes (LSM-tree disk storage + mmap vector cache)",
+      "pgvector": "Yes (PostgreSQL standard disk pages & buffer pool)",
+      "Elasticsearch": "Yes (Lucene mmapfs for segment file caching)",
+      "Pinecone": "Yes (Serverless cold tiered SSD storage)"
+    },
+    {
+      "section": "C. Vector Search & Indexing Capabilities",
+      "parameter": "Maximum Vector Dimensionality",
+      "type": "DOCUMENTATION",
+      "Qdrant": "65,535 dimensions",
+      "Chroma": "Arbitrary (constrained by RAM/hnswlib)",
+      "FAISS": "Arbitrary (constrained by memory/CPU)",
+      "Milvus": "32,768 dimensions",
+      "Weaviate": "65,535 dimensions",
+      "pgvector": "2,000 dimensions (up to 16,000 in halfvec)",
+      "Elasticsearch": "4,096 dimensions (dense_vector)",
+      "Pinecone": "40,000 dimensions (Serverless)"
+    },
+    {
+      "section": "D. Filtering & Hybrid Retrieval",
+      "parameter": "Metadata Filtering Strategy",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Single-Stage (Custom payload graph traversal during HNSW)",
+      "Chroma": "Post-Filtering / Pre-Filtering hybrid (via SQLite)",
+      "FAISS": "Post-Filtering (via IDSelector or custom application logic)",
+      "Milvus": "Pre-Filtering / Iterative Filtering during graph traversal",
+      "Weaviate": "Single-Stage (Inverted index combined with HNSW traversal)",
+      "pgvector": "Integrated SQL Query Planner (Pre-filter / Index Scan)",
+      "Elasticsearch": "Lucene filtered query (Bitset masking on HNSW nodes)",
+      "Pinecone": "Single-Stage metadata filtering during graph traversal"
+    },
+    {
+      "section": "D. Filtering & Hybrid Retrieval",
+      "parameter": "Payload / Metadata Indexing",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (Explicit schema-based inverted payload indexes)",
+      "Chroma": "Yes (SQLite indexes on metadata keys)",
+      "FAISS": "No (Payloads must be managed externally by host app)",
+      "Milvus": "Yes (Inverted indexes on scalar fields)",
+      "Weaviate": "Yes (Automatic inverted property indexing)",
+      "pgvector": "Yes (B-tree, GIN on JSONB, BRIN on scalar columns)",
+      "Elasticsearch": "Yes (Industry standard Apache Lucene inverted indexes)",
+      "Pinecone": "Yes (Automatic metadata indexing on all scalar fields)"
+    },
+    {
+      "section": "D. Filtering & Hybrid Retrieval",
+      "parameter": "Native Full-Text / BM25 Keyword Search",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (Built-in full-text token matching on string payloads)",
+      "Chroma": "Basic string contains filtering (no native BM25 engine)",
+      "FAISS": "No (Vector similarity search library only)",
+      "Milvus": "Yes (Sparse vector / BM25 built-in analyzer v2.4+)",
+      "Weaviate": "Yes (Native BM25 inverted index engine)",
+      "pgvector": "Yes (PostgreSQL native tsvector / tsquery Full-Text)",
+      "Elasticsearch": "Yes (Gold standard BM25 text relevance search)",
+      "Pinecone": "Yes (Sparse-dense hybrid index support)"
+    },
+    {
+      "section": "D. Filtering & Hybrid Retrieval",
+      "parameter": "Sparse-Dense Hybrid Fusion Algorithm",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Reciprocal Rank Fusion (RRF) & Score Boosting",
+      "Chroma": "Requires external application re-ranking",
+      "FAISS": "Requires external application re-ranking",
+      "Milvus": "Reciprocal Rank Fusion (RRF) & Relative Score Fusion",
+      "Weaviate": "Relative Score Fusion & Reciprocal Rank Fusion (RRF)",
+      "pgvector": "SQL ranking fusion (RRF or weighted linear combination)",
+      "Elasticsearch": "Reciprocal Rank Fusion (RRF) & Linear Combination",
+      "Pinecone": "Alpha-weighted Convex Linear Combination"
+    },
+    {
+      "section": "E. Scalability & Distributed Architecture",
+      "parameter": "Horizontal Sharding Support",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Native automatic hash-ring sharding",
+      "Chroma": "Single-node embedded (Distributed Chroma in enterprise)",
+      "FAISS": "Manual application-level sharding (ShardedIndex)",
+      "Milvus": "Native distributed sharding across QueryNodes",
+      "Weaviate": "Native multi-shard class partitioning",
+      "pgvector": "PostgreSQL Citus / Foreign Data Wrappers / Partitioning",
+      "Elasticsearch": "Native index primary and replica sharding",
+      "Pinecone": "Automated serverless virtualized sharding"
+    },
+    {
+      "section": "E. Scalability & Distributed Architecture",
+      "parameter": "Read Replicas & High Availability",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (Raft consensus replica management)",
+      "Chroma": "No in embedded mode (Single writer/reader)",
+      "FAISS": "No (Application must duplicate in-memory instances)",
+      "Milvus": "Yes (Stateless QueryNodes scale horizontally)",
+      "Weaviate": "Yes (Raft-coordinated multi-replica clusters)",
+      "pgvector": "Yes (PostgreSQL streaming replication & read pools)",
+      "Elasticsearch": "Yes (Lucene replica shards with primary election)",
+      "Pinecone": "Yes (Managed multi-AZ redundancy)"
+    },
+    {
+      "section": "E. Scalability & Distributed Architecture",
+      "parameter": "Consensus / Cluster Coordination",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Embedded Raft (Rust)",
+      "Chroma": "None (SQLite file lock in embedded)",
+      "FAISS": "None (No networking or clustering)",
+      "Milvus": "Etcd + Apache Pulsar / Kafka",
+      "Weaviate": "Raft consensus (Go)",
+      "pgvector": "PostgreSQL Patroni / Pacemaker for HA",
+      "Elasticsearch": "Raft-based Zen Discovery / Master nodes",
+      "Pinecone": "Proprietary Cloud Orchestrator"
+    },
+    {
+      "section": "F. Developer Experience & Ecosystem",
+      "parameter": "Primary Client Communication Protocol",
+      "type": "DOCUMENTATION",
+      "Qdrant": "gRPC (HTTP/2) & REST (HTTP/JSON)",
+      "Chroma": "In-Process Python API / REST",
+      "FAISS": "In-Process C++ ABI / Python ctypes / SWIG",
+      "Milvus": "gRPC (HTTP/2) & REST",
+      "Weaviate": "gRPC (v4 high-speed) & GraphQL & REST",
+      "pgvector": "PostgreSQL Wire Protocol (libpq / SQL)",
+      "Elasticsearch": "REST (HTTP/JSON) & Java Transport",
+      "Pinecone": "gRPC (HTTP/2) & REST HTTPS"
+    },
+    {
+      "section": "F. Developer Experience & Ecosystem",
+      "parameter": "Official Client SDK Support",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Python, TypeScript/JS, Rust, Go, Java, C#",
+      "Chroma": "Python, TypeScript/JS",
+      "FAISS": "Python, C++",
+      "Milvus": "Python, Go, Java, Node.js, C#, REST",
+      "Weaviate": "Python (v4), TypeScript/JS, Go, Java",
+      "pgvector": "Any SQL driver (psycopg, asyncpg, JDBC, SQLAlchemy)",
+      "Elasticsearch": "Python, Java, JS/TS, Go, .NET, PHP, Ruby",
+      "Pinecone": "Python, TypeScript/JS, Java, Go, C#, Spark"
+    },
+    {
+      "section": "F. Developer Experience & Ecosystem",
+      "parameter": "LangChain & LlamaIndex RAG Integration",
+      "type": "DOCUMENTATION",
+      "Qdrant": "First-Class Official Partner Package",
+      "Chroma": "First-Class Default Store in tutorials",
+      "FAISS": "First-Class Official Community Store",
+      "Milvus": "First-Class Official Partner Package",
+      "Weaviate": "First-Class Official Partner Package",
+      "pgvector": "First-Class Official Partner Package",
+      "Elasticsearch": "First-Class Official Partner Package",
+      "Pinecone": "First-Class Official Partner Package"
+    },
+    {
+      "section": "G. Deployment, Security & Operations",
+      "parameter": "Zero-Daemon Embedded In-Process Mode",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Yes (:memory: or local path in qdrant-client)",
+      "Chroma": "Yes (chromadb.PersistentClient)",
+      "FAISS": "Yes (Native C++ library loaded into memory)",
+      "Milvus": "Yes via milvus-lite (Linux/macOS primarily)",
+      "Weaviate": "Experimental Weaviate-Embedded",
+      "pgvector": "No (Requires running PostgreSQL daemon)",
+      "Elasticsearch": "No (Requires JVM Elasticsearch process)",
+      "Pinecone": "No (Cloud API service only)"
+    },
+    {
+      "section": "G. Deployment, Security & Operations",
+      "parameter": "Docker & Kubernetes Deployment",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Official Docker container & Helm chart",
+      "Chroma": "Official Docker container & Helm chart",
+      "FAISS": "Packaged into custom container images",
+      "Milvus": "Official Docker Compose & Kubernetes Operator",
+      "Weaviate": "Official Docker container & Helm chart",
+      "pgvector": "Official pgvector Docker image & PostgreSQL Helm",
+      "Elasticsearch": "Official Docker container & ECK Operator",
+      "Pinecone": "N/A (Managed Cloud SaaS only)"
+    },
+    {
+      "section": "G. Deployment, Security & Operations",
+      "parameter": "Authentication & RBAC Security",
+      "type": "DOCUMENTATION",
+      "Qdrant": "API Key, mTLS, Role-Based Access Control",
+      "Chroma": "Token / Basic Auth (Server mode)",
+      "FAISS": "N/A (Host process security boundary)",
+      "Milvus": "User/Role RBAC, TLS, LDAP/OAuth integration",
+      "Weaviate": "API Key, OIDC / OAuth2, RBAC (v4)",
+      "pgvector": "PostgreSQL Roles, pg_hba.conf, SSL/mTLS, Row-Level Security",
+      "Elasticsearch": "Elasticsearch Security (RBAC, SAML, OIDC, TLS, PKI)",
+      "Pinecone": "API Key authentication, Project-level RBAC"
+    },
+    {
+      "section": "H. Commercial & Cost Considerations",
+      "parameter": "Cloud SaaS Availability & Free Tier",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Qdrant Cloud (1GB Forever Free cluster)",
+      "Chroma": "Chroma Cloud (Waitlist / Early Access)",
+      "FAISS": "None (Self-hosted library only)",
+      "Milvus": "Zilliz Cloud ($100 free credit / Serverless tier)",
+      "Weaviate": "Weaviate Cloud (14-day free sandbox sandbox)",
+      "pgvector": "AWS RDS/Aurora, Supabase (Free tier), Neon (Free tier)",
+      "Elasticsearch": "Elastic Cloud (14-day free trial; paid thereafter)",
+      "Pinecone": "Pinecone Serverless (Free Starter Tier with $0 spend limit)"
+    },
+    {
+      "section": "H. Commercial & Cost Considerations",
+      "parameter": "Self-Hosted Infrastructure TCO",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Low-to-Medium (Single Rust binary, minimal RAM overhead)",
+      "Chroma": "Very Low (Runs embedded in application container)",
+      "FAISS": "Lowest (Zero infrastructure daemon overhead)",
+      "Milvus": "Medium-to-High (Requires Etcd, MinIO, Pulsar dependencies)",
+      "Weaviate": "Medium (Single Go binary, high RAM for HNSW)",
+      "pgvector": "Lowest incremental cost if PostgreSQL is already deployed",
+      "Elasticsearch": "High (JVM heap memory footprint, complex ops)",
+      "Pinecone": "Zero self-hosted ops; Pay-as-you-go Cloud API pricing"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Benchmark Execution Status",
+      "type": "MEASURED",
+      "Qdrant": "BENCHMARKED (Local Embedded Mode)",
+      "Chroma": "BENCHMARKED (Local Persistent Mode)",
+      "FAISS": "BENCHMARKED (In-Process Algorithmic Baseline)",
+      "Milvus": "NOT BENCHMARKED (pymilvus uninstalled)",
+      "Weaviate": "NOT BENCHMARKED (weaviate-client uninstalled)",
+      "pgvector": "NOT BENCHMARKED (psycopg2 uninstalled / no daemon)",
+      "Elasticsearch": "NOT BENCHMARKED (client uninstalled / no daemon)",
+      "Pinecone": "NOT BENCHMARKED (API Credentials Not Configured)"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Evaluated Corpus Documents",
+      "type": "MEASURED",
+      "Qdrant": "1,000 Documents (BEIR/SciFact subset)",
+      "Chroma": "1,000 Documents (BEIR/SciFact subset)",
+      "FAISS": "1,000 Documents (BEIR/SciFact subset)",
+      "Milvus": "1,000 Documents (BEIR/SciFact subset)",
+      "Weaviate": "1,000 Documents (BEIR/SciFact subset)",
+      "pgvector": "1,000 Documents (BEIR/SciFact subset)",
+      "Elasticsearch": "1,000 Documents (BEIR/SciFact subset)",
+      "Pinecone": "1,000 Documents (BEIR/SciFact subset)"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Evaluated Query Set & Relevance Judgments",
+      "type": "MEASURED",
+      "Qdrant": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "Chroma": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "FAISS": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "Milvus": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "Weaviate": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "pgvector": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "Elasticsearch": "50 Queries | 54 Ground-Truth Relevance Judgments",
+      "Pinecone": "50 Queries | 54 Ground-Truth Relevance Judgments"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Embedding Model & Dimensions",
+      "type": "MEASURED",
+      "Qdrant": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "Chroma": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "FAISS": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "Milvus": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "Weaviate": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "pgvector": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "Elasticsearch": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)",
+      "Pinecone": "all-MiniLM-L6-v2 (384-dimensional normalized embeddings, Float32)"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Vector Normalization & Top-K",
+      "type": "MEASURED",
+      "Qdrant": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "Chroma": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "FAISS": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "Milvus": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "Weaviate": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "pgvector": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "Elasticsearch": "L2 Unit Normalization (||v||=1.0) | Top-K = 10",
+      "Pinecone": "L2 Unit Normalization (||v||=1.0) | Top-K = 10"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Workload & Warm-Up Cycles",
+      "type": "MEASURED",
+      "Qdrant": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "Chroma": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "FAISS": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "Milvus": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "Weaviate": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "pgvector": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "Elasticsearch": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)",
+      "Pinecone": "10 Warm-Up | 50 Queries x 3 Repetitions (150 runs)"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Evaluated Performance & IR Metrics",
+      "type": "MEASURED",
+      "Qdrant": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "Chroma": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "FAISS": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "Milvus": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "Weaviate": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "pgvector": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "Elasticsearch": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10",
+      "Pinecone": "Latency P50/P95/P99, QPS, Precision@10, Recall@10, Hit Rate@10, MRR, NDCG@10"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "FAISS System Architectural Scope",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Full Client-Server / Embedded Vector Database with storage & filtering",
+      "Chroma": "Embedded / Local-First Vector Store with SQLite & metadata filtering",
+      "FAISS": "In-process vector similarity search library / algorithmic baseline (not a full database)",
+      "Milvus": "Full Distributed Cloud-Native Vector Database with storage & filtering",
+      "Weaviate": "Full Native Vector Search Engine with inverted index & BM25 hybrid",
+      "pgvector": "Full Relational Database Extension with PostgreSQL ACID transactions",
+      "Elasticsearch": "Full Enterprise Search Engine with Apache Lucene dense_vector",
+      "Pinecone": "Full Managed Cloud SaaS Vector Database with serverless indexing"
+    },
+    {
+      "section": "I. Benchmark Experimental Conditions",
+      "parameter": "Controlled Workload Scope & Notice",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Results apply only to this controlled workload; not universal performance claims",
+      "Chroma": "Results apply only to this controlled workload; not universal performance claims",
+      "FAISS": "Results apply only to this controlled workload; not universal performance claims",
+      "Milvus": "Results apply only to this controlled workload; not universal performance claims",
+      "Weaviate": "Results apply only to this controlled workload; not universal performance claims",
+      "pgvector": "Results apply only to this controlled workload; not universal performance claims",
+      "Elasticsearch": "Results apply only to this controlled workload; not universal performance claims",
+      "Pinecone": "Results apply only to this controlled workload; not universal performance claims"
+    },
+    {
+      "section": "J. Measured Ingestion Performance",
+      "parameter": "Ingestion Throughput (Vectors / Second)",
+      "type": "MEASURED",
+      "Qdrant": "1,121.7 vec/s",
+      "Chroma": "360.7 vec/s",
+      "FAISS": "422,493.6 vec/s",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "J. Measured Ingestion Performance",
+      "parameter": "Total Ingestion Wall-Clock Duration",
+      "type": "MEASURED",
+      "Qdrant": "0.892 s",
+      "Chroma": "2.772 s",
+      "FAISS": "0.002 s",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "J. Measured Ingestion Performance",
+      "parameter": "Dedicated Index Construction Duration",
+      "type": "MEASURED",
+      "Qdrant": "0.000 s (dynamic)",
+      "Chroma": "0.000 s (dynamic)",
+      "FAISS": "0.000 s (flat)",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "K. Measured Query Latency & Throughput",
+      "parameter": "Median Query Latency (P50)",
+      "type": "MEASURED",
+      "Qdrant": "4.43 ms",
+      "Chroma": "3.24 ms",
+      "FAISS": "0.23 ms",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "K. Measured Query Latency & Throughput",
+      "parameter": "95th Percentile Latency (P95 Tail)",
+      "type": "MEASURED",
+      "Qdrant": "6.70 ms",
+      "Chroma": "5.01 ms",
+      "FAISS": "0.47 ms",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "K. Measured Query Latency & Throughput",
+      "parameter": "99th Percentile Latency (P99 Tail)",
+      "type": "MEASURED",
+      "Qdrant": "7.42 ms",
+      "Chroma": "5.59 ms",
+      "FAISS": "1.73 ms",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "K. Measured Query Latency & Throughput",
+      "parameter": "Mean Query Latency",
+      "type": "MEASURED",
+      "Qdrant": "4.77 ms",
+      "Chroma": "3.52 ms",
+      "FAISS": "0.28 ms",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "K. Measured Query Latency & Throughput",
+      "parameter": "Sequential Query Throughput (QPS)",
+      "type": "MEASURED",
+      "Qdrant": "208.9 QPS",
+      "Chroma": "282.7 QPS",
+      "FAISS": "3,452.2 QPS",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "Recall@10 (SciFact Ground Truth)",
+      "type": "MEASURED",
+      "Qdrant": "0.8700",
+      "Chroma": "0.8700",
+      "FAISS": "0.8700",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "Precision@10 (SciFact Ground Truth)",
+      "type": "MEASURED",
+      "Qdrant": "0.0940",
+      "Chroma": "0.0940",
+      "FAISS": "0.0940",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "Hit Rate@10 (At least 1 relevant hit)",
+      "type": "MEASURED",
+      "Qdrant": "0.8800",
+      "Chroma": "0.8800",
+      "FAISS": "0.8800",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "MRR (Mean Reciprocal Rank)",
+      "type": "MEASURED",
+      "Qdrant": "0.7295",
+      "Chroma": "0.7295",
+      "FAISS": "0.7295",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "NDCG@10 (Normalized Discounted Gain)",
+      "type": "MEASURED",
+      "Qdrant": "0.7602",
+      "Chroma": "0.7602",
+      "FAISS": "0.7602",
+      "Milvus": "Not Benchmarked (pymilvus uninstalled)",
+      "Weaviate": "Not Benchmarked (weaviate-client uninstalled)",
+      "pgvector": "Not Benchmarked (psycopg2 uninstalled / no Postgres daemon)",
+      "Elasticsearch": "Not Benchmarked (elasticsearch client uninstalled / no daemon)",
+      "Pinecone": "Not Benchmarked (API Key Not Configured)"
+    },
+    {
+      "section": "L. Measured Information Retrieval (IR) Quality",
+      "parameter": "Empirical Retrieval Quality Summary",
+      "type": "MEASURED",
+      "Qdrant": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+      "Chroma": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+      "FAISS": "Qdrant, Chroma, and FAISS produced identical retrieval-quality scores under the controlled benchmark configuration, indicating consistent retrieval behavior for this workload.",
+      "Milvus": "Not Benchmarked (see execution status)",
+      "Weaviate": "Not Benchmarked (see execution status)",
+      "pgvector": "Not Benchmarked (see execution status)",
+      "Elasticsearch": "Not Benchmarked (see execution status)",
+      "Pinecone": "Not Benchmarked (see execution status)"
+    },
+    {
+      "section": "M. Architectural Synthesis & Trade-offs",
+      "parameter": "Core Technical Advantage / Strength",
+      "type": "DOCUMENTATION",
+      "Qdrant": "Rust-powered speed, single-stage payload graph traversal, flexible embedded and cluster modes.",
+      "Chroma": "Zero-friction Python developer experience; ideal for rapid prototyping and local LLM agents.",
+      "FAISS": "Gold standard algorithmic search performance; ultra-low in-memory latency with zero daemon overhead.",
+      "Milvus": "Massive horizontal scalability to billions of vectors with decoupled cloud-native storage nodes.",
+      "Weaviate": "First-class GraphQL/gRPC developer APIs with native hybrid BM25 search and modular ML vectorizers.",
+      "pgvector": "Full relational ACID compliance; joins vector similarity directly with existing transactional tables.",
+      "Elasticsearch": "Unrivaled enterprise text search, logging, and inverted-index BM25 combined with Lucene HNSW vectors.",
+      "Pinecone": "Zero infrastructure administration; fully managed cloud autoscaling with pay-as-you-go pricing."
+    },
+    {
+      "section": "M. Architectural Synthesis & Trade-offs",
+      "parameter": "Primary Architectural Limitation",
+      "type": "DOCUMENTATION",
+      "Qdrant": "High memory consumption for uncompressed HNSW graphs; smaller ecosystem than Elasticsearch.",
+      "Chroma": "Single-writer SQLite bottleneck in embedded mode; lacks advanced multi-tenant cluster features.",
+      "FAISS": "Not a database: in-process similarity search library only; lacks network server daemon, client-server API protocols, storage durability (WAL), CRUD mutations, security, multi-tenancy, and metadata payload filtering.",
+      "Milvus": "High deployment complexity (requires Etcd, MinIO, Pulsar microservices); steep operational overhead.",
+      "Weaviate": "Heavy memory footprint for HNSW graphs; complex configuration for enterprise multi-tenancy.",
+      "pgvector": "Lower QPS and higher latency under heavy vector search compared to specialized Rust/C++ native engines.",
+      "Elasticsearch": "Substantial JVM memory heap requirements; slower vector ingestion throughput than native vector DBs.",
+      "Pinecone": "Proprietary cloud lock-in; ongoing SaaS subscription costs; network WAN round-trip latency."
+    },
+    {
+      "section": "M. Architectural Synthesis & Trade-offs",
+      "parameter": "Optimal Production Workload & Use Case",
+      "type": "DOCUMENTATION",
+      "Qdrant": "High-throughput RAG systems requiring rich metadata payload filtering and sub-10ms response times.",
+      "Chroma": "Local desktop AI apps, Jupyter notebook experiments, rapid PoCs, and embedded RAG prototypes.",
+      "FAISS": "Algorithmic research, offline batch vector clustering, GPU vector search, and custom inference backends.",
+      "Milvus": "Large-scale enterprise vector platforms exceeding 100M+ vectors with distributed data pipelines.",
+      "Weaviate": "Complex multimodal search and hybrid RAG pipelines leveraging native BM25 + dense retrieval.",
+      "pgvector": "Existing PostgreSQL applications needing semantic search without introducing a second database stack.",
+      "Elasticsearch": "Enterprise search platforms where dense vector similarity is added alongside massive text catalogs.",
+      "Pinecone": "Fast-moving AI startups wanting serverless vector infrastructure without dedicated DevOps engineers."
+    },
+    {
+      "section": "N. Technical Documentation References",
+      "parameter": "Official Technical Documentation Link",
+      "type": "DOCUMENTATION",
+      "Qdrant": "https://qdrant.tech/documentation/concepts/",
+      "Chroma": "https://docs.trychroma.com/guides",
+      "FAISS": "https://github.com/facebookresearch/faiss/wiki",
+      "Milvus": "https://milvus.io/docs/architecture_overview.md",
+      "Weaviate": "https://weaviate.io/developers/weaviate/architecture",
+      "pgvector": "https://github.com/pgvector/pgvector#indexing",
+      "Elasticsearch": "https://www.elastic.co/guide/en/elasticsearch/reference/current/dense-vector.html",
+      "Pinecone": "https://docs.pinecone.io/guides/get-started/overview"
+    },
+    {
+      "section": "N. Technical Documentation References",
+      "parameter": "Official Source Code Repository",
+      "type": "DOCUMENTATION",
+      "Qdrant": "https://github.com/qdrant/qdrant",
+      "Chroma": "https://github.com/chroma-core/chroma",
+      "FAISS": "https://github.com/facebookresearch/faiss",
+      "Milvus": "https://github.com/milvus-io/milvus",
+      "Weaviate": "https://github.com/weaviate/weaviate",
+      "pgvector": "https://github.com/pgvector/pgvector",
+      "Elasticsearch": "https://github.com/elastic/elasticsearch",
+      "Pinecone": "https://github.com/pinecone-io/pinecone-python-client"
+    }
+  ]
+}
