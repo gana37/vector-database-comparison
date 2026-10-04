@@ -179,7 +179,7 @@ with st.sidebar:
             file_name="VDB_Comprehensive_Analysis.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             help="Strictly 1 single worksheet: VDB_Master_Comparison (78 rows x 11 cols)",
-            use_container_width=True
+            width="stretch"
         )
         st.caption("✅ Master Worksheet: `VDB_Master_Comparison` (78 rows × 11 columns)")
     else:
@@ -306,7 +306,7 @@ with tabs[0]:
     df_overview = pd.DataFrame(overview_data)
     st.dataframe(
         df_overview,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Database": st.column_config.TextColumn(width="medium"),
@@ -366,6 +366,8 @@ with tabs[1]:
     perf_data = []
     for k in ["qdrant", "chroma", "faiss"]:
         m = measured[k]
+        storage_val = m["resources"].get("storage_mb")
+        storage_disp = f"{storage_val:.2f}" if isinstance(storage_val, (int, float)) else ("In-Memory" if storage_val is None else str(storage_val))
         perf_data.append({
             "Database": m["name"],
             "Execution Mode": m["deployment_mode"],
@@ -378,13 +380,14 @@ with tabs[1]:
             "Mean Latency (ms)": m["latency_ms"]["mean"],
             "QPS": m["throughput_qps"],
             "Peak RSS (MB)": m["resources"]["peak_rss_mb"] if m["resources"]["peak_rss_mb"] else "N/A",
-            "Storage (MB)": m["resources"]["storage_mb"] if m["resources"]["storage_mb"] else "In-Memory"
+            "Storage (MB)": storage_disp
         })
     df_perf = pd.DataFrame(perf_data)
+    df_perf["Storage (MB)"] = df_perf["Storage (MB)"].astype(str)
 
     st.dataframe(
         df_perf,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Ingestion (vec/s)": st.column_config.NumberColumn(format="%.1f"),
@@ -417,7 +420,7 @@ with tabs[1]:
         )
         fig_ing.update_traces(texttemplate='%{text:,.1f} vec/s', textposition='outside')
         fig_ing.update_layout(showlegend=False, height=380, margin=dict(t=40, b=20, l=20, r=20))
-        st.plotly_chart(fig_ing, use_container_width=True)
+        st.plotly_chart(fig_ing, width="stretch")
 
     with c2:
         st.markdown("#### Query Latency Distribution (ms)")
@@ -436,7 +439,7 @@ with tabs[1]:
             title="Latency Percentile Breakdown (Lower is Better)"
         )
         fig_lat.update_layout(height=380, margin=dict(t=40, b=20, l=20, r=20))
-        st.plotly_chart(fig_lat, use_container_width=True)
+        st.plotly_chart(fig_lat, width="stretch")
 
     # Chart Row 2: Throughput (QPS) & Resource Consumption
     c3, c4 = st.columns(2)
@@ -454,7 +457,7 @@ with tabs[1]:
         )
         fig_qps.update_traces(texttemplate='%{text:,.1f} QPS', textposition='outside')
         fig_qps.update_layout(showlegend=False, height=380, margin=dict(t=40, b=20, l=20, r=20))
-        st.plotly_chart(fig_qps, use_container_width=True)
+        st.plotly_chart(fig_qps, width="stretch")
 
     with c4:
         st.markdown("#### Memory & Storage Footprint")
@@ -476,7 +479,7 @@ with tabs[1]:
             title="Peak Process RSS RAM & Disk Storage (MB)"
         )
         fig_res.update_layout(height=380, margin=dict(t=40, b=20, l=20, r=20))
-        st.plotly_chart(fig_res, use_container_width=True)
+        st.plotly_chart(fig_res, width="stretch")
 
     st.markdown("#### Unbenchmarked Systems Status Summary")
     unbench_items = []
@@ -525,7 +528,7 @@ with tabs[2]:
     df_ir = pd.DataFrame(ir_table)
     st.dataframe(
         df_ir,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Recall@10": st.column_config.NumberColumn(format="%.4f"),
@@ -551,7 +554,7 @@ with tabs[2]:
             title="IR Metrics Across Benchmarked Systems"
         )
         fig_ir.update_layout(height=380, margin=dict(t=40, b=20, l=20, r=20))
-        st.plotly_chart(fig_ir, use_container_width=True)
+        st.plotly_chart(fig_ir, width="stretch")
 
     with col_ir2:
         st.markdown("#### Radar Footprint")
@@ -574,7 +577,7 @@ with tabs[2]:
             height=380,
             margin=dict(t=40, b=20, l=40, r=40)
         )
-        st.plotly_chart(fig_radar, use_container_width=True)
+        st.plotly_chart(fig_radar, width="stretch")
 
     st.markdown(r"""
     #### 💡 Retrieval Behavior & Equivalence Analysis
@@ -618,7 +621,7 @@ with tabs[3]:
     df_section = pd.DataFrame(table_data)
     st.dataframe(
         df_section,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Technical Parameter": st.column_config.TextColumn(width="medium"),
@@ -710,7 +713,7 @@ with tabs[4]:
                 comp_db1: v1,
                 comp_db2: v2
             })
-        st.dataframe(pd.DataFrame(diff_rows), use_container_width=True, hide_index=True)
+        st.dataframe(pd.DataFrame(diff_rows), width="stretch", hide_index=True)
 
 
 # -----------------------------------------------------------------------------
@@ -756,7 +759,7 @@ with tabs[5]:
     btn_cols = st.columns(3)
     for idx, q_text in enumerate(sample_queries):
         col_target = btn_cols[idx % 3]
-        if col_target.button(q_text, key=f"sq_btn_{idx}", use_container_width=True):
+        if col_target.button(q_text, key=f"sq_btn_{idx}", width="stretch"):
             st.session_state.messages.append({"role": "user", "content": q_text})
             res = assistant.ask(q_text)
             st.session_state.messages.append({"role": "assistant", "content": res["answer"], "intent": res["intent"], "evidence_type": res["evidence_type"]})
